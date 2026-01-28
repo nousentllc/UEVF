@@ -1,0 +1,1568 @@
+% ============================================================
+% UEVF / Nous — Standard Paper Preamble (vCurrent)
+% As of: 2026-01-27 (America/Chicago)
+% ============================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+% --------------------
+% Encoding / Fonts
+% --------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern} % safe default; swap to Libertinus if desired
+\usepackage{microtype}
+
+% --------------------
+% Page geometry
+% --------------------
+\usepackage{geometry}
+\geometry{
+  letterpaper,
+  margin=0.75in,
+  includeheadfoot
+}
+
+% --------------------
+% Math / symbols
+% --------------------
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+% --------------------
+% Units / numbers
+% --------------------
+\usepackage{siunitx}
+\sisetup{
+  detect-all,
+  group-separator = {,},
+  group-minimum-digits = 4,
+  per-mode = symbol,
+  range-phrase = {--},
+  range-units = single
+}
+
+% --------------------
+% Tables / figures
+% --------------------
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+% --------------------
+% Lists
+% --------------------
+\usepackage{enumitem}
+\setlist{nosep}
+
+% --------------------
+% Spacing / paragraphs
+% --------------------
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{parskip}
+\setlength{\parskip}{0.5\baselineskip}
+
+% --------------------
+% Headers / footers
+% --------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Unified Energy Valuation Framework (UEVF)}
+\rhead{Foundational Paper}
+\cfoot{\thepage}
+
+% --------------------
+% Hyperlinks (blue, clean)
+% --------------------
+\usepackage{xcolor}
+\definecolor{linkblue}{RGB}{0,70,160}
+\usepackage[
+  colorlinks=true,
+  linkcolor=linkblue,
+  citecolor=linkblue,
+  urlcolor=linkblue,
+  pdfauthor={Justin Candler and Uriel},
+  pdftitle={Unified Energy Valuation Framework (UEVF)}
+]{hyperref}
+
+% --------------------
+% Bibliography (Natbib — numeric, stable)
+% --------------------
+\usepackage[numbers,sort&compress]{natbib}
+
+% --------------------
+% TOC tweaks (optional)
+% --------------------
+\usepackage{tocloft}
+
+% --------------------
+% Theorems (optional)
+% --------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% --------------------
+% Common macros (UEVF)
+% --------------------
+
+\newcommand{\PRM}{\mathrm{PRM}}
+\newcommand{\MRV}{\mathrm{MRV}}
+
+% --- Text-safe acronym macros (work in text or math) ---
+\newcommand{\ASCDE}{\ensuremath{\mathrm{ASCDE}}}
+\newcommand{\VOLL}{\ensuremath{\mathrm{VOLL}}}
+\newcommand{\LOLE}{\ensuremath{\mathrm{LOLE}}}
+\newcommand{\EUE}{\ensuremath{\mathrm{EUE}}}
+\newcommand{\ELCC}{\ensuremath{\mathrm{ELCC}}}
+
+% --------------------
+% Document metadata helpers
+% --------------------
+\newcommand{\CanonicalID}{Foundational Paper} % <-- set per paper
+
+% ============================================================
+\begin{document}
+
+% --------------------
+\begin{titlepage}
+    \centering
+    
+    % --- Title Section ---
+    \vspace*{1cm} % Top padding
+    
+    % Top horizontal rule
+    \rule{\linewidth}{1.5pt} 
+    \vspace{0.4cm}
+    
+    % Title (Sans-serif, Bold, Huge)
+    {\Huge \sffamily \textbf{Unified Energy Valuation Framework (UEVF):}\par}
+    \vspace{0.2cm}
+    {\LARGE \sffamily \textbf{A Comprehensive System-Cost Approach for the U.S. Power Sector}\par}
+    
+    \vspace{0.4cm}
+    % Subtitle / ID
+    {\large \textbf{\CanonicalID}\par}
+    
+    % Bottom horizontal rule
+    \vspace{0.4cm}
+    \rule{\linewidth}{1.5pt}
+    
+    
+    % --- Author Section ---
+    \vspace{1.5cm}
+    
+    {\Large \textbf{Justin Candler} \quad \textbullet \quad \textbf{Uriel}\par}
+    \vspace{0.5cm}
+    
+    {\large \textit{Nous Enterprises LLC}\par}
+    {\normalsize \texttt{Nousentllc@gmail.com}\par}
+
+    \vfill
+    
+   \begin{figure}
+    \centering
+    \includegraphics[width=0.2\linewidth]{JC Nous Logo_July2019_Black.png}
+\end{figure}
+
+    
+    % --- Abstract Section ---
+    % Minipage keeps the abstract width narrower than the title for a cleaner look
+    \begin{minipage}{0.9\textwidth} 
+        \centering
+        {\large \textbf{\textsc{Abstract}}\par} % Small Caps header
+        \vspace{0.3cm}
+        \small % Slightly smaller font to ensure it fits on one page
+        \setlength{\parskip}{0.5em} % Adds a little breathing room between lines if needed
+        
+        The rapid evolution of the U.S. electric power system---characterized by increasing renewable penetration, emerging storage technologies, and shifting market dynamics---has exposed the limitations of traditional cost metrics such as levelized cost of electricity (LCOE). This paper proposes and develops the Unified Energy Valuation Framework (UEVF) as a system-level methodology for valuing generation, storage, and demand-side resources under operational, network, and reliability constraints. UEVF integrates six core modules---Dispatch, Fuel Supply, Storage, Transmission, Reliability, and Market Value---to capture cost and value components that are routinely externalized by LCOE-style metrics. Within this framework, we define the Adjusted System-Level Cost of Delivered Electricity (\ASCDE), derived from first principles to represent the average cost of delivering reliable electricity to load when accounting for intermittency, network limitations, and adequacy risk monetized via \VOLL-based reliability adders. We provide symbolic formulations that establish internal consistency and highlight how UEVF bridges planning and market valuation by mapping cost drivers to market products and operational constraints. The framework is intended as a practical analytic interface for ISO/RTO planning, policy evaluation, and portfolio comparison on an ``apples-to-apples'' basis that preserves reliability completeness.
+    \end{minipage}
+
+    \vfill
+    
+    % --- Keywords Section ---
+    \begin{minipage}{0.9\textwidth}
+        \centering
+        \rule{0.5\linewidth}{0.5pt} % Small separator line
+        \vspace{0.3cm}
+        
+        {\footnotesize \textbf{Keywords:} UEVF; \ASCDE; LCOE; system cost; integration cost; deliverability; resource adequacy; \ELCC; \LOLE; \EUE; power markets\par}
+    \end{minipage}
+
+    \vspace{1.5cm} % Bottom padding
+
+\end{titlepage}
+
+% --------------------
+% Front matter
+% --------------------
+\tableofcontents
+\newpage
+
+\section*{Nomenclature}
+\addcontentsline{toc}{section}{Nomenclature}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3} % Adds breathing room between rows
+\small
+\begin{tabularx}{\textwidth}{@{} l X l @{}}
+\toprule
+\textbf{Symbol} & \textbf{Description} & \textbf{Key Sources} \\ 
+\midrule
+
+% --- Metric Definitions ---
+$\ASCDE$ & \textbf{Adjusted System-Level Cost of Delivered Electricity}. \newline 
+The composite UEVF metric integrating generation, reliability, and delivery costs. & (This paper); see also \cite{idel2022, grimm2024}\footnotemark[1] \\
+
+$\VOLL$ & \textbf{Value of Lost Load}. \newline 
+Monetized cost of unserved energy (scarcity penalty), used to price risk. & \cite{wood2013, ercot2018}\footnotemark[2] \\
+
+% --- Reliability Metrics ---
+$\LOLE$ & \textbf{Loss of Load Expectation}. \newline 
+Probabilistic adequacy index (e.g., 0.1 days/year). & \cite{nerc2019, wood2013} \\
+
+$\EUE$ & \textbf{Expected Unserved Energy}. \newline 
+Severity index (MWh/yr) representing total load shedding risk. & \cite{nerc2019} \\
+
+$\ELCC$ & \textbf{Effective Load Carrying Capability}. \newline 
+Capacity contribution of a resource based on reliability contribution. & \cite{milligan2016, miso2021, pjm2020}\footnotemark[3] \\
+
+$\PRM$ & \textbf{Planning Reserve Margin}. \newline 
+Target capacity buffer above peak load (derived from LOLE targets). & \cite{nerc2019, wood2013} \\
+
+% --- Market & Operational Factors ---
+$D$ & \textbf{Deliverability Factor}. \newline 
+Fraction of accredited capacity deliverable under network constraints. & \cite{miso2021, caiso2020} \\
+
+$v_{\text{val}}$ & \textbf{Market Value Factor}. \newline 
+Ratio of a resource's capture price to the average system price. & \cite{hirth2013, iea2020}\footnotemark[4] \\
+
+$\lambda$ & \textbf{Locational Marginal Price (LMP)}. \newline 
+Used for market revenue calculations and congestion valuation. & \cite{wood2013} \\
+
+$\eta$ & \textbf{Round-Trip Efficiency}. \newline 
+Loss factor for storage resources (charge/discharge cycle). & \cite{lazard2023, nrel2021_compmetrics} \\
+
+\bottomrule
+\end{tabularx}
+\caption{Nomenclature and Key Literature References}
+\label{tab:nomenclature}
+\end{table}
+
+% --- Footnote Texts (Place these immediately after the table environment) ---
+
+\footnotetext[1]{Idel (2022) and Grimm et al. (2024) provide the theoretical basis for "Levelized Full System Costs" and "Levelized Cost of Load Coverage," which ASCDE extends.}
+
+\footnotetext[2]{Wood and Wollenberg (2013) provide the fundamental definition; ERCOT (2018) provides operational context for Fuel Security and Scarcity Pricing.}
+
+\footnotetext[3]{Milligan et al. (2016) (NREL) is the seminal text on ELCC methods; MISO (2021) and PJM (2020) detail the specific ISO implementations used here.}
+
+\footnotetext[4]{Hirth (2013) established the "value factor" methodology for variable renewables; IEA (2020) adopted this for the "Value-Adjusted LCOE" (VALCOE) metric.}
+
+\newpage
+
+% Executive Summary
+\section*{Executive Summary}
+This paper introduces the Unified Energy Valuation Framework (UEVF), a novel comprehensive approach to evaluate electricity generation technologies in the context of the U.S. power system. Traditional metrics like the Levelized Cost of Electricity (LCOE), while widely used for their simplicity, have well-documented shortcomings when applied to modern, complex grids with high shares of variable renewables. LCOE condenses a project’s lifetime costs into a single \$/MWh value, but it ignores critical system-level factors: it does not account for when and how electricity is produced relative to demand, nor does it capture the additional costs a grid incurs to integrate that resource. For instance, variable resources such as wind and solar with the same LCOE as a gas plant are not equivalent on a reliability or value basis -- LCOE by itself overlooks the need for backup capacity, storage, or transmission upgrades, and the differing market value of energy produced at different times. As a result, policymakers and planners relying solely on LCOE can draw misleading conclusions about the comparative economic viability of resources.
+
+UEVF addresses this gap by expanding the analytical boundary beyond the asset-centric view of LCOE to a system-centric view. It does so through six core modules, each representing a key dimension of system cost or value:
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{Dispatch Module}: Accounts for the operational flexibility of a resource, including its ability to follow load, provide ramping, and start/stop as needed. This module captures any additional system operating costs or savings due to the resource’s dispatch characteristics, ensuring that fast-ramping, highly flexible plants are properly valued and inflexible, intermittent resources carry the cost of the balancing services they necessitate.
+    \item \textbf{Fuel Supply Module}: Incorporates the cost and risk associated with supplying fuel (where applicable) to generators. This includes not only fuel costs (already part of LCOE for fuel-burning plants) but also fuel supply security measures -- for example, on-site fuel storage for gas units, fuel transportation infrastructure, or dual-fuel capabilities. Recent operational events (such as cold-weather gas shortages) underscore that fuel deliverability constraints can threaten reliability and impose hidden costs on the system. UEVF makes these costs explicit in the valuation.
+    \item \textbf{Storage Module}: Represents the integration of energy storage needed to complement generation resources. Variable renewables may require storage for energy shifting, and conventional inflexible plants might need storage or demand response for load following. This module quantifies the capital and operating cost of storage resources or equivalent flexibility options that are necessary to ensure the resource can effectively contribute to meeting demand around the clock.
+    \item \textbf{Transmission Module}: Captures the cost of transmission infrastructure and network impacts associated with a resource. Locational constraints (e.g., remote wind needing new transmission lines) or distributed resources (which might reduce transmission needs) are accounted for here. The module reflects both the incremental transmission investments required for resource integration and the potential transmission cost savings a resource might provide (for example, distributed generation reducing load on transmission lines).
+    \item \textbf{Reliability Module}: Quantifies contributions to resource adequacy and the costs of maintaining reliability. Key concepts like firm capacity value (often measured by Effective Load Carrying Capability, ELCC) are incorporated to determine how much a resource actually contributes to meeting peak demand reliably. If a resource has a limited capacity credit (as is the case for solar and wind), this module calculates the cost of supplemental capacity (e.g., peaking generators or demand response) needed to meet reliability standards (such as the one-in-ten-years Loss of Load Expectation criterion). In essence, the Reliability Module internalizes the insurance cost of keeping the lights on.
+    \item \textbf{Market Value Module}: Adjusts for the economic value of the electricity produced, recognizing that a megawatt-hour is not equally valuable at all times. This module uses concepts like the capture price or value factor of a resource -- for instance, if a technology predominantly produces during low-demand periods (or when many similar resources are online, driving prices down), its energy is less valuable than a resource producing during peak demand. The Market Value Module can apply a value adjustment factor to reflect over- or under-performance relative to the average market price. This ensures that resources are compared on the basis of delivered value to the system, not just cost. (It parallels the idea behind the International Energy Agency’s Value-Adjusted LCOE (VALCOE), which incorporates system value in the metric.)
+\end{itemize}
+
+By structuring the analysis into these six modules, UEVF provides a transparent and granular accounting of what it truly takes for a resource to supply electricity to consumers in a reliable, flexible, and secure manner. We then synthesize these modules into a single metric, ASCDE (Adjusted System-Level Cost of Delivered Electricity), which measures the levelized all-in cost per MWh delivered to the grid when all system adjustments are included. ASCDE is conceptually akin to an LCOE that has been ``corrected'' for system context -- it answers the question: If I rely on this resource to deliver one megawatt-hour to the grid (while meeting all reliability and operational requirements), what is the real cost to the system of that MWh?
+
+Crucially, ASCDE enables apples-to-apples comparisons across technologies. A key finding is that resources with low standalone LCOE can have much higher ASCDE once system costs are included. Prior studies support this: for example, using a full system cost perspective, researchers found that forcing a single resource like wind or solar to meet demand (with storage backup) yields costs an order of magnitude higher than its LCOE. Similarly, the Levelized Cost of Load Coverage (LCOLC) -- which measures the cost of optimally covering demand with a mix -- is substantially higher than individual renewable LCOEs, reflecting the need for backup and overcapacity in high-renewable scenarios. These findings validate the importance of moving beyond naive LCOE comparisons. UEVF formalizes this by design: a low LCOE technology that imposes high integration costs will see those costs reflected in a higher ASCDE, whereas a resource that provides added system value (e.g., firm capacity or avoided transmission) will see a lower ASCDE.
+
+The development of UEVF and ASCDE is grounded in established theory. We incorporate unit commitment and dispatch modeling principles to capture operational costs, stochastic analysis for supply variability (ensuring probabilistic reliability is valued), and market economics for price-based value adjustments. The framework remains analytical and transparent -- we derive formulas symbolically for each module and for ASCDE without resorting to black-box simulations. This analytical approach makes UEVF particularly useful for policymakers and system planners: it yields interpretable formulas and parameters that can be debated, stress-tested, or adjusted for policy (e.g., one can explicitly see the cost of a reliability requirement or the value of a flexibility credit).
+
+In conclusion, the Unified Energy Valuation Framework provides a robust foundation for next-generation resource evaluation in the U.S. power sector. By aligning cost assessment with the physical and economic realities of grid operation, UEVF helps ensure that investment and policy decisions are based on the true system cost of delivered electricity. The framework is poised to improve integrated resource planning, guide market design adjustments (such as more accurate capacity accreditation and compensation), and ultimately aid the transition to a cleaner electricity mix by highlighting the net system benefits of different technologies. For industry practitioners, UEVF offers a comprehensive yet comprehensible methodology to compare projects not just on build costs, but on their overall system impact -- a crucial perspective as we strive for a reliable, affordable, and sustainable grid.
+
+% Introduction
+\section{Introduction}
+
+\subsection{Background and Motivation}
+Electric power systems are undergoing transformative changes driven by decarbonization, decentralization, and digitalization. In the United States, these changes manifest as unprecedented growth in renewable generation, the advent of affordable energy storage, and evolving electricity demand patterns (such as flexible loads and electrification of transportation). This transformation has exposed the inadequacy of traditional project evaluation metrics to fully capture the system-level implications of integrating diverse resources.
+
+For decades, the Levelized Cost of Electricity (LCOE) has been a go-to metric for comparing the economic competitiveness of power generation technologies. LCOE provides the average cost per unit of electricity generated, considering capital expenditure, operating costs, fuel, maintenance, and financing, all amortized over the asset’s lifetime. It is appealing for its simplicity and single-number summary that enables quick comparisons of, say, a wind farm versus a gas-fired plant. Indeed, LCOE ``facilitates a comparison between technologies with varying degrees of capital- and fuel-intensiveness'' and is ``commonly used \dots to guide research and development goals'' \citep{eia2020}.
+
+However, as the power system’s portfolio diversifies and complexity grows, LCOE’s shortcomings have become increasingly apparent. By design, LCOE is a project-centric metric -- it evaluates a generator in isolation, effectively assuming that every megawatt-hour it produces has equal value and displaces an average megawatt-hour from the grid. In reality, a generator’s impact on system cost and value is profoundly context-dependent. LCOE does not account for when the energy is produced, how reliably it can meet demand, or what additional infrastructure and balancing efforts are needed to deliver that energy to customers. As noted by Joskow and others, LCOE ``ignores time effects associated with matching production to demand'' \citep{joskow2011}. Two major time-related limitations are: (1) dispatchability -- the ability of a plant to ramp up or down to meet demand fluctuations, and (2) availability profile matching -- the degree to which a plant’s output coincides with periods of high demand. A high-LCOE resource that reliably produces during peak demand might be more valuable than a low-LCOE resource that produces primarily during off-peak, yet vanilla LCOE would misleadingly favor the latter.
+
+Beyond timing, LCOE fails to capture the ``integration costs'' or ``system costs'' that a resource imposes on (or spares) the grid. For example, a wind farm’s LCOE might include the cost of turbines and O\&M, but not the cost of new transmission lines to connect a remote windy site, nor the cost of maintaining fast-ramping backup plants or batteries for when the wind fades. The metric ``leaves out external costs that the power system may incur in order to integrate that source to the grid'' \citep{nrel2021_compmetrics}. These omitted integration costs are not trivial -- in some cases, they can be large enough that the true cost to supply electricity from a resource is many times the resource’s LCOE. Robert Idel’s concept of Levelized Full System Cost of Electricity (LFSCOE) vividly demonstrated this by calculating that if one were to rely on a single source (like solar or wind) plus storage to supply an entire market, the resulting cost per MWh would dwarf the standalone LCOE of that source, often by an order of magnitude \citep{idel2022}. In other words, the context can turn a seemingly cheap resource into an expensive one when assessed at the system level.
+
+On the flip side, LCOE also fails to credit resources that provide supporting services or cost offsets. For instance, a highly flexible gas turbine that can start on short notice provides reserves and frequency response that have tangible system value, but LCOE does not value this capability -- it only sees a higher cost per kWh due to lower utilization (as peakers run infrequently). A solar plus battery project might reduce strain on the transmission network by generating at the point of use, but its LCOE would not reflect the avoided transmission investment. Put simply, LCOE is blind to both the penalties and bonuses that arise from how a resource interacts with the rest of the grid.
+
+Recognizing these shortcomings, researchers and institutions have proposed various enhanced valuation metrics. The U.S. Energy Information Administration (EIA) introduced the concept of Levelized Avoided Cost of Energy (LACE) to complement LCOE \citep{eia2020}. LACE measures the value of the output by calculating the cost of the generation that would be avoided/displaced if a new resource comes online. A project is attractive if its LCOE is below the LACE (meaning it costs less than the alternative generation it replaces). While LACE moves in the right direction by considering system context (it effectively asks ``what cost do we avoid by adding this plant?''), it still yields a separate number and requires comparing two metrics (LCOE vs LACE) rather than giving a unified picture. The EIA often uses the value-cost ratio (LACE/LCOE) as an indicator, highlighting that a project with LACE > LCOE (ratio > 1) is economically viable \citep{eia2020}. Yet, the need to compute LACE as a distinct exercise underscores the desire for a single, integrated metric.
+
+In a similar vein, the International Energy Agency (IEA) developed the Value-Adjusted LCOE (VALCOE) \citep{iea2020}. VALCOE modifies LCOE by incorporating the system value of electricity, acknowledging that ``the same amount of power may be less or more valuable during peak demand'' \citep{iea2020}. In practice, VALCOE includes adjustments for energy, capacity, and flexibility value, effectively penalizing technologies that predominantly produce during low-value periods or have low capacity credit. For example, if solar power has a low capture price (earning less revenue than the average market price because it floods the market at noon), VALCOE would be higher than LCOE for solar, reflecting that diminished value \citep{iea2020}. VALCOE is a step toward combining cost and value in one metric, and we draw on the same philosophy for UEVF.
+
+Two recent metrics take a more holistic system perspective. Idel’s LFSCOE (Levelized Full System Cost) we mentioned earlier essentially asks: ``What if this technology (plus necessary storage) had to do all the work in a given grid?''. It assigns that technology full responsibility for balancing and reliability, whereas LCOE assumes the technology has no such obligation \citep{idel2022}. LFSCOE condenses this into a single cost figure per technology per market. Veronika Grimm and colleagues proposed the Levelized Cost of Load Coverage (LCOLC), which flips the perspective: instead of one technology doing all the work, LCOLC asks ``what is the minimal cost mix of technologies to cover a given load profile?'' \citep{grimm2024}. LCOLC thus yields an overall average cost of electricity for meeting demand reliably with an optimal combination of resources. Notably, Grimm et al.\ found LCOLC to be ``substantially higher'' than the LCOE of renewables in scenarios with high renewable shares -- a reflection of the integration costs (backup, storage, overbuild) needed to cover load with renewables. LCOLC is an insightful metric for policy because it directly informs how low the cost of electricity can be in a future system given technology option, but it is not a project-specific metric; it’s a system-wide one.
+
+Table not shown here, but conceptually summarizing these metrics could look like:
+\begin{itemize}[nosep,leftmargin=*]
+    \item LCOE: Project cost per MWh, no system context.
+    \item LACE: System value per MWh, no direct project cost included (compare with LCOE).
+    \item VALCOE: Project cost per MWh adjusted for system value (single metric combining the above).
+    \item LFSCOE: Project cost including extreme integration (one tech + storage handles all demand).
+    \item LCOLC: System-wide cost per MWh with an optimal mix (shows gap between isolated LCOE and full system need).
+\end{itemize}
+
+What remains lacking, and what this paper aims to develop, is a unified framework that can be applied to evaluate any individual project or resource type in a way that fully internalizes its system impacts. Such a framework should retain a single-number result for ease of comparison (like LCOE or VALCOE) but be comprehensive enough to reflect the insights of LACE, LFSCOE, LCOLC, and more. It should also be flexible and modular to adapt to different contexts and assumptions (e.g., different reliability standards or different levels of other resources on the grid).
+
+The Unified Energy Valuation Framework (UEVF) is our answer to this need. UEVF explicitly breaks down the task of valuation into six modules (Dispatch, Fuel Supply, Storage, Transmission, Reliability, Market Value), ensuring that no major category of system cost or value is omitted. Each module corresponds to a question that system planners ask when integrating a resource:
+\begin{itemize}[nosep,leftmargin=*]
+    \item How will this resource actually operate in the dispatch, and what costs or benefits come with that? (Dispatch Module)
+    \item What does it take to ensure this resource has the fuel/energy it needs to generate? (Fuel Supply Module)
+    \item Do we need storage or other flexibility to support this resource’s variability? (Storage Module)
+    \item Can the power get to where it’s needed, or do we build wires? (Transmission Module)
+    \item Can we count on this resource to be there at peak? If not, what else do we need for reliability? (Reliability Module)
+    \item When this resource produces energy, is it at a high-value time or a low-value time? (Market Value Module)
+\end{itemize}
+
+By answering these questions in a structured way, UEVF builds a complete picture of a resource’s system-compatible cost.
+
+\subsection{Objectives and Contributions}
+The primary objective of this paper is to propose and rigorously develop the Unified Energy Valuation Framework as a tool for both academic analysis and practical planning in the electricity sector. We aim to make the following contributions:
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{Critical Evaluation of Existing Metrics}: We provide a detailed literature-backed critique of LCOE and its various extensions (VALCOE, LFSCOE, LCOLC, etc.), identifying specific limitations of each. This establishes the rationale for why a new framework is needed. Rather than just pointing out flaws in isolation, we connect them to the structural changes in the power system (e.g., why high renewables make LCOE less useful, why resource adequacy concerns demand more than just average cost comparisons). Our evaluation confirms a broad consensus that ``no consensus exists on an alternative metric'' yet despite ``well-known shortcomings'' of LCOE \citep{nrel2021_compmetrics}, reinforcing the timeliness of UEVF.
+    \item \textbf{Development of the UEVF Structure}: We introduce the six core modules of UEVF and articulate the scope of each. This is not just a casual listing -- we formally define what each module includes and does not include, ensuring orthogonality (minimal overlap) between modules. For example, we clarify that ``Fuel Supply'' pertains to upstream fuel logistics and not the fuel cost per se (which is in LCOE’s purview except for shortages), and that ``Market Value'' deals with energy value differences while ``Reliability'' deals with capacity adequacy -- these are related but distinct facets. Such clear delineation is important for avoiding double-counting or omissions.
+    \item \textbf{Mathematical Formulation}: A significant contribution is the mathematical derivation of the Adjusted System-Level Cost of Delivered Electricity (ASCDE) metric. We derive ASCDE in a step-by-step manner, starting from basic definitions (net present value of costs, reliability constraints, etc.) and incorporating each module’s contribution. The result is an equation for ASCDE that can be interpreted intuitively but is grounded in formal optimization-based reasoning. We prove key properties of ASCDE: for instance, that ASCDE reduces to ordinary LCOE in the special case of a fully dispatchable resource with 100\% capacity credit, no added transmission needs, and production perfectly matching demand (thus requiring no value adjustment). This sanity check ensures UEVF is an extension, not a rejection, of LCOE -- when system integration is a non-issue, UEVF appropriately collapses to the conventional result. We also show how ASCDE relates to other metrics: e.g., in a limiting case, ASCDE approximates LFSCOE when a resource supplies a large fraction of load, and connects to LCOLC when evaluating an optimal mix scenario.
+    \item \textbf{Theoretical Integration of Reliability and Market Theory}: We incorporate elements from reliability engineering (like Loss of Load Expectation (LOLE), Effective Load Carrying Capability (ELCC), and planning reserve margins) and from electricity markets (like energy vs.\ capacity market values, ancillary service values). UEVF’s Reliability Module, for example, uses the concept of ELCC to assign a capacity value to each resource; we provide a formula for the capacity cost adder for a resource that has less than 100\% ELCC (i.e., if a 1 kW of resource only contributes 0.5 kW to peak reliably, then the remaining 0.5 kW must be procured from elsewhere, and that cost is added). We ground these discussions in theory: e.g., citing how ISOs are increasingly using ELCC in their capacity accreditation and how reliability metrics can be translated into cost requirements \citep{pjm2020, caiso2020}.
+    \item \textbf{Policy and Planning Implications}: We dedicate sections to discussing how UEVF and ASCDE can be applied in practice. This includes how regulators and utilities can use ASCDE in integrated resource planning to avoid pitfalls of mis-ranking resources by LCOE alone, and how ISOs/RTOs might integrate the framework into market design -- for instance, by internalizing certain module costs as market charges or credits (a contemporary example being how some markets are considering capacity market de-rating based on ELCC, effectively similar in spirit to our reliability module cost accounting). We also discuss how policymakers could use UEVF outputs for policy design, such as designing incentives or penalties (e.g., a policy that requires plants to secure their fuel supply would effectively be internalizing the Fuel Supply Module cost that UEVF identifies).
+\end{itemize}
+
+In summary, our contribution is both conceptual and practical: we advance the academic conversation on energy valuation metrics by providing a new structured approach (the UEVF), and we aim to make that approach accessible to practitioners by demonstrating its use and significance in real-world planning and decision-making contexts.
+
+\subsection{Organization of the Paper}
+The remainder of this paper is structured as follows:
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{Literature Review (Section II)}: We survey the existing body of literature and industry practice on cost and value metrics for electricity generation. Key concepts such as LCOE, LACE, VALCOE, LFSCOE, LCOLC, and others are explained and critiqued. This section solidifies the understanding of each metric’s purpose and limitations, providing a foundation that UEVF will build upon. We also review relevant reliability and market theory literature that will inform the UEVF modules (for example, writings on unit commitment modeling, operational reserve valuation, and capacity value of renewables).
+    \item \textbf{Methodology (Section III)}: We introduce the methodology for developing UEVF. This begins with laying out the fundamental equations for cost (NPV of costs, levelization) and how we incorporate system constraints (like reliability requirements or network constraints) into a cost framework. We then present the formal definitions of the six UEVF modules one by one. For each module, we describe qualitatively what it represents and then provide the mathematical formulation for how its cost or value is quantified. For instance, in the Dispatch Module, we might introduce a simplified unit commitment optimization to show how additional cycling costs or curtailment might be quantified. In the Transmission Module, we might introduce a term for the marginal cost of transmission per kW of resource added in a given location. Each module’s formula is kept as general as possible but can be parameterized for specific cases.
+    \item \textbf{The Unified Energy Valuation Framework (Section IV)}: In this core section, we integrate the modules to construct the overall framework. We formally define the Adjusted System-Level Cost of Delivered Electricity (ASCDE) and derive it step-by-step. The section includes theoretical derivations (e.g., deriving the cost of load not served and showing how enforcing a reliability constraint leads to a reliability cost term). We provide a theoretical example (without numeric simulation, but symbolic) -- for example, consider a simplistic two-period grid (peak and off-peak) and two resources (one intermittent, one firm) to illustrate how each module’s costs arise and how ASCDE would be computed. This pedagogical example helps cement understanding of the framework. We also prove properties of ASCDE as described under contributions: boundary conditions and equivalences to other metrics in special cases. The section ensures that the framework is internally consistent and additive (i.e., ASCDE can be seen as LCOE plus a sum of adjustment terms from each module, net of any value credits).
+    \item \textbf{Discussions (Section V)}: We discuss the implications of UEVF findings. This includes re-evaluating some common beliefs with the new lens: for example, how does a solar farm’s attractiveness change when moving from LCOE to ASCDE? We might conceptually demonstrate that while solar’s LCOE fell dramatically in the last decade, its ASCDE in a high-solar grid might not fall as fast due to increasing integration costs at high penetration. We also discuss how UEVF can inform policy: e.g., resource procurement -- an RFP (Request for Proposals) could ask developers to report an estimated ASCDE instead of just LCOE, or regulators could require integrated resource plans to rank options by ASCDE. Planning relevance is highlighted by showing how the framework could be used in capacity expansion models or production cost models to ensure all costs are accounted for in objective functions. We also talk about potential integration into ISO/RTO processes: for example, how UEVF’s Reliability Module aligns with capacity market accreditation, or how the Market Value Module aligns with energy market price formation (perhaps suggesting the need for improved price signals for flexibility).
+    \item \textbf{Conclusions (Section VI)}: We summarize the key contributions and insights of the paper, reiterating the importance of a system-cost perspective in resource evaluation. We also identify areas for future research, such as refining the quantification of certain module costs (e.g., better methods to estimate transmission costs for a resource, or dynamic effects like how the modules interplay when multiple new resources are added concurrently), and possible extensions of UEVF (like applying it to demand-side resources or using it for cross-sector evaluations in integrated energy systems).
+    \item \textbf{References}: A comprehensive list of sources cited, demonstrating the academic and industry foundations on which this work builds.
+\end{itemize}
+
+By structuring the paper in this way, we ensure that it flows from the general (the need and concept) to the specific (the mathematical framework), then back out to applications and broader implications. This narrative is intended to be accessible to senior industry practitioners (with the Executive Summary and Discussion focusing on practical meaning) while also satisfying academic rigor (with Literature Review, Methodology, and Theoretical Framework sections providing formal detail and citations).
+
+Before diving into the literature review, we emphasize that the geographic focus of this paper is the U.S. power system. Many of the concepts are broadly applicable, but the discussion will often refer to U.S.-specific structures (e.g., the presence of organized capacity markets in some regions, FERC regulations, NERC reliability standards, etc.). This focus ensures that the UEVF is framed in a context familiar to U.S. policymakers and industry stakeholders, increasing the relevance of our discussions on policy and ISO/RTO integration.
+
+% Literature Review
+\section{Literature Review}
+In this section, we review the existing methods for evaluating electricity generation costs and their evolution as the needs of system analysis have expanded. We also cover relevant theoretical underpinnings in reliability and market operations that will inform our framework.
+
+\subsection{Traditional Cost Metric: Levelized Cost of Electricity (LCOE)}
+The concept of Levelized Cost of Electricity (LCOE) has its roots in utility financial analysis and engineering economics. It is essentially a present value life-cycle cost per unit of output. Formally, LCOE is calculated as:
+\[
+\text{LCOE} = \frac{\sum_{t=0}^{T} (I_t + O_t + F_t)(1+r)^{-t}}{\sum_{t=0}^{T} E_t (1+r)^{-t}} \tag{1}
+\]
+where \(I_t\) are investment expenditures (often all incurred at \(t=0\) for initial capital, but can include future capital like major refurbishments), \(O_t\) are operations and maintenance costs in year \(t\), \(F_t\) are fuel costs in year \(t\), and \(E_t\) is the electricity generated in year \(t\); \(r\) is the discount rate and \(T\) the life of the project. The numerator is the net present cost of building and operating the plant, and the denominator is the net present energy produced. This yields a constant-cost-per-MWh that, if charged for each MWh, would exactly recoup the project’s costs with the given discounting.
+
+\paragraph{Widespread Use:} LCOE gained popularity because it provides a single figure of merit that encapsulates both the capital intensity and operating cost of different technologies \citep{eia2020}. In the late 20th century, when grids were dominated by dispatchable thermal plants and comparisons were often between, say, a coal plant and a gas plant, LCOE served reasonably well as a screening tool. It is used by national and international agencies (EIA, IEA, etc.), investment banks, and researchers alike. For instance, Lazard’s annual ``Levelized Cost of Energy'' report (Lazard is a financial advisory firm) is a widely cited source summarizing LCOEs for various technologies and has influenced industry dialogues on cost-competitiveness \citep{lazard2023}.
+
+\paragraph{Assumptions and Limitations:} LCOE assumes the project works as an energy supplier only, not providing or requiring any other services. Implicitly, it assumes:
+\begin{itemize}[nosep,leftmargin=*]
+    \item The output \(E_t\) is produced whenever needed (or, more bluntly, that any MWh produced has equal usefulness).
+    \item The project is credited for all the energy it produces, and none is wasted or curtailed.
+    \item The grid has no trouble integrating the plant (no extra costs or constraints due to the plant’s characteristics).
+    \item No consideration of when \(E_t\) occurs beyond the total amount.
+\end{itemize}
+
+These assumptions started to break down as renewable energy sources grew. A wind turbine’s generation \(E_t\) depends on wind and might be concentrated in certain seasons or times of day. A solar PV’s generation is daytime only, zero at night, and peaks at noon. These profiles could cause surplus at some hours and deficits at others, but LCOE doesn’t distinguish.
+
+\paragraph{Critiques in Literature:} Scholars have long pointed out LCOE’s blind spots. Paul Joskow (2011) highlighted that comparing wind and gas by LCOE is flawed because wind’s value is lower when it produces mainly off-peak, whereas gas can be timed to load \citep{joskow2011}. He argued for comparing based on delivered cost at peak vs off-peak, not just an average. Similarly, Hirth et al.\ (2015) discussed the concept of the value factor of wind and solar, essentially the ratio of a technology’s market value to the market average, noting that high penetration of renewables depresses their own value \citep{hirth2015}. Such work laid groundwork for incorporating market value adjustments.
+
+Moreover, as renewables grew, studies found that high penetration leads to diminishing returns due to curtailment and increased balancing needs. A striking demonstration was that the whole-system cost per MWh rises as more wind/solar are added beyond certain points, even if their LCOE is falling -- the integration challenges mount. LCOE alone couldn’t capture that.
+
+\paragraph{Well-Known Shortcomings:} Industry and agencies now acknowledge LCOE’s limits. NREL states that while LCOE is common, it ``has several well-known shortcomings, particularly because LCOE is not designed to capture a technology’s full economic value to the system'' \citep{nrel2021_compmetrics}. Those shortcomings include:
+\begin{itemize}[nosep,leftmargin=*]
+    \item Temporal mismatch: Not capturing the time dimension (as noted, no difference between a kWh at 3am vs 5pm).
+    \item Firmness/dispatchability: Not capturing the ability of the plant to be turned on/off or adjusted (LCOE treats a never-curtailed, always fully used generator).
+    \item Reliability contribution: Not indicating how the generator contributes to meeting peak demand or if additional capacity is needed due to its intermittency.
+    \item Location and network costs: Not including costs if, for instance, the best wind sites are far from load and need transmission lines.
+    \item External costs/benefits: Not including externalities (environmental costs) or other societal impacts, though some studies extend LCOE by putting a price on carbon, etc., that’s a different dimension of ``external''.
+\end{itemize}
+
+To remedy some of these, a number of modifications and complementary metrics have been proposed, which we now review.
+
+\subsection{Incorporating Value: LACE and VALCOE}
+
+\paragraph{Levelized Avoided Cost of Energy (LACE):} The U.S. EIA introduced LACE to evaluate investments by considering what cost the new generator avoids. For a proposed plant, LACE asks: If this plant were not built, what would the system have to pay for energy instead? It is essentially the weighted-average cost of the displaced generation. To compute LACE, one typically simulates the system without the plant and with the plant:
+\begin{itemize}[nosep,leftmargin=*]
+    \item Without the plant: determine the total production cost or market cost to serve load.
+    \item With the plant: determine the new total cost.
+\end{itemize}
+The difference, per MWh generated by the plant, is the avoided cost (value) per MWh.
+
+The EIA would then look at the value-cost ratio = LACE / LCOE. If \(>1\), the plant’s value exceeds its cost (good investment); if \(<1\), it’s not economically justified \citep{eia2020}. LACE captures some site- and time-specific value because a peaking plant, for example, avoids very expensive peak energy, giving it a high LACE relative to its LCOE, whereas a resource that generates primarily when cheaper resources would have been available yields a lower LACE.
+
+However, LACE is inherently system-dependent and scenario-dependent (what is avoided depends on what else is in the mix and fuel prices, etc.). It’s also not as straightforward to calculate as LCOE; it needs a system model. So while conceptually sound, it’s not as universally reported as LCOE. Still, it laid the groundwork that value matters as much as cost.
+
+\paragraph{Value-Adjusted LCOE (VALCOE):} To bring value consideration into a single metric, the IEA proposed VALCOE \citep{iea2020}. Instead of producing two numbers like LCOE and LACE, VALCOE tries to adjust the LCOE itself. The idea is to modify the cost per MWh by factors that represent the relative value. In IEA’s implementation, they break value into categories:
+\begin{itemize}[nosep,leftmargin=*]
+    \item Energy value: related to how the resource’s generation aligns with demand and the resulting average revenue vs the average price.
+    \item Capacity value: related to how much firm capacity the resource provides (capacity credit).
+    \item Flexibility value: related to the resource’s ability to provide ramping and reserve services.
+\end{itemize}
+
+They then adjust LCOE by comparing those values to a reference. For example, if a technology’s energy is on average only 80\% as valuable as a flat output (due to curtailment or low prices when it operates), and its capacity credit is say 50\% of its nameplate (compared to a fully firm plant), those factors reduce its overall value. VALCOE will be higher than LCOE in such a case. Conversely, a flexible resource with high value contributions could have a VALCOE equal or even lower than LCOE if it provides extra services not captured in the energy output alone.
+
+In simpler terms, one could think of VALCOE formulaically as:
+\[
+\text{VALCOE} = \text{LCOE} - \text{(value bonus)} + \text{(value penalty)}
+\]
+or as
+\[
+\text{VALCOE} = \text{LCOE} \times \frac{\text{average cost}}{\text{average value}}.
+\]
+For instance, if a MWh from this plant is only 0.8 times as valuable as a generic MWh, and its capacity value is half, one would scale LCOE accordingly. The IEA in its World Energy Outlook publications has shown charts where, e.g., solar PV’s VALCOE is significantly above its LCOE in systems with a lot of solar, reflecting that the last increments of solar have low marginal value \citep{iea2020}.
+
+VALCOE’s strength is in providing a single corrected cost that can be compared across technologies directly in \$/MWh, which is very useful for broad policy discussions (e.g., is solar + storage now ``cheaper'' than gas peakers when you include the value of their output? etc.). However, VALCOE is only as good as the value estimates, which require simulations or historical data analysis. It also doesn’t explicitly show what part of the difference is due to what factor (unless one looks at the breakdown internally).
+
+The UEVF we propose shares a similar spirit to VALCOE in that it seeks a single metric capturing more than just raw cost, but we aim to break the contributors out explicitly (the six modules) for clarity and flexibility in analysis.
+
+\subsection{Enhanced System Cost Metrics: LFSCOE and LCOLC}
+As integrating renewables became a pressing challenge, researchers proposed new ways to measure the full cost impact. Two notable recent developments are LFSCOE and LCOLC:
+
+\paragraph{Levelized Full System Cost of Electricity (LFSCOE):} Introduced by Robert Idel (2022) \citep{idel2022}, LFSCOE imagines a scenario where a given technology (plus necessary storage) serves an entire market’s load. In other words, it’s like asking, ``what if our grid was 100\% this technology (with storage to manage timing)? How high would the cost per MWh be?'' This is clearly an extreme scenario -- no one suggests, for example, a 100\% wind system without any other resources. But by analyzing that extreme, LFSCOE captures the integration challenges in a single number. If a technology is easy to integrate, its LFSCOE won’t be much higher than its LCOE. If it’s hard to integrate (say solar, which only produces in the day), its LFSCOE will be many times higher.
+
+Idel’s method essentially took each technology and optimized the amount of storage needed to cover demand (I suspect using historical demand and resource data). The result was something like: for a given technology in a given market (e.g., wind in Texas, solar in California), LFSCOE = X \$/MWh. In Idel’s findings, wind and solar had LFSCOEs significantly above their LCOEs, reflecting the huge storage or overbuild needed to supply a whole year of load reliably \citep{idel2022}. Technologies like gas or nuclear, which are dispatchable and have high capacity factors, had LFSCOEs closer to their LCOE (since they can in theory serve load by themselves with minimal support).
+
+The critique of LFSCOE is that it’s an extreme case -- no one sources 100\% from one technology except perhaps in niche cases. But it is instructive; it’s like a stress test for a technology’s integration cost. It highlights that the cost difference between being part of a mix and being the sole provider is very large for intermittent sources. Also, LFSCOE condenses ``the costs of serving the entire market using just one source plus storage \dots into one number'' \citep{idel2022}, which means it’s technology-specific and market-specific.
+
+Our UEVF draws inspiration from LFSCOE in the sense that the Reliability and Storage Modules of UEVF are essentially accounting for the same kinds of costs LFSCOE reveals -- but instead of pushing to 100\% market share, we account for these costs incrementally for a project at any penetration. In other words, where LFSCOE says ``if wind were 100\%, cost is \$X'', UEVF would say ``for this wind farm at current/future grid conditions, the cost adders for needing backup and storage are \$Y per MWh''. If one scaled wind toward 100\%, those adders in UEVF would increase and approach the LFSCOE gap.
+
+\paragraph{Levelized Cost of Load Coverage (LCOLC):} Proposed by Grimm, Öchsle, and Zöttl (2024) \citep{grimm2024}, LCOLC takes a system optimization perspective. It asks: given a load profile (say the year of demand for Germany or Texas), and given a set of technology options (with their costs and characteristics), what is the minimal cost combination to meet that load? The average cost of that optimized solution, in \$/MWh, is the LCOLC. If one only had one technology available, LCOLC for that scenario would actually be the same as LFSCOE. But since typically multiple options are allowed, the optimization will choose an optimal mix (for instance, maybe mostly renewables but some gas for backup, some storage, etc., whatever yields lowest cost to meet demand and reliability).
+
+The motivation for LCOLC was to provide ``a simple and meaningful tool to inform policy debate about approximate generation cost, particularly for systems with high shares of renewables'' \citep{grimm2024}. Traditional LCOE, as they note, is ``average total cost of building and operating a generator per unit generated by it'' \citep{grimm2024}, which is not the same as the average cost of supply to meet load. LCOLC highlights the gap -- and indeed, their case studies (for Germany) showed LCOLC is much higher than the LCOE of renewables \citep{grimm2024}. That gap is essentially the cost of all the ``stuff'' needed in addition to the renewables themselves (backup capacity that runs infrequently, etc.).
+
+LCOLC is a great metric to answer questions like ``If we go 80\% renewable, what’s roughly the cost of electricity once we include everything needed?'' It encapsulates system cost rather than project cost. However, like LFSCOE, it’s more of a scenario or planning metric than something you’d directly apply to evaluate one project’s bid. It also doesn’t tell you how to allocate costs to individual resources in a mix -- it just gives a total.
+
+Our UEVF attempts to allocate or attribute costs to resources individually in a way that sums up to the total (like we can recreate an LCOLC if needed by summing the ASCDE-weighted contributions of all resources in the optimal mix). Essentially, UEVF internalizes the spirit of LCOLC (covering load reliably at least cost) into a framework that can evaluate one resource at a time by considering what else is needed with it.
+
+\subsection{Reliability Valuation and Capacity Metrics}
+A crucial aspect that the above cost metrics grapple with (to varying extents) is resource adequacy -- the ability of a set of resources to meet demand at all times, especially under peak or stress conditions. Historically, vertically integrated utilities did this by maintaining a planning reserve margin (e.g., aiming for capacity \textasciitilde 15\% above expected peak demand). In restructured markets, capacity markets or capacity planning processes exist to procure sufficient capacity.
+
+For intermittent and energy-limited resources, the concept of capacity credit or capacity value is central. The Effective Load Carrying Capability (ELCC) is one rigorous way to define it \citep{milligan2016}. ELCC of a resource is defined as the additional load that can be served at the same reliability level by adding the resource to the system. Equivalently, it’s the firm capacity that the resource can replace. ELCC is typically expressed as a percentage of the resource’s nameplate capacity. For example, if 100 MW of wind allows the system to serve 15 MW more load reliably (or replace a 15 MW thermal unit without hurting reliability), then that wind’s ELCC is 15\%, meaning it’s worth 15 MW of firm capacity.
+
+Different ISOs have adopted ELCC methods for capacity accreditation \citep{pjm2020, caiso2020}. For instance, PJM and CAISO were among early adopters, and others like MISO, SPP, NYISO, ISO-NE have followed \citep{miso2021, spp2021, nyiso2021, isone2021}. This indicates a shift from deterministic rules (like ``wind counts for 20\% of its capacity'') to probabilistic ELCC-based approaches as renewables grow.
+
+In terms of costs, one can think: if a resource has an ELCC of 50\%, then to provide the same reliability as a 1 MW firm resource, you either need 2 MW of that resource, or accept the need for additional backup. The cost of maintaining reliability then involves ensuring those additional needs are funded. Some markets handle this by requiring load-serving entities to procure more if resources have lower ELCC. But in a planning or evaluation context, we might assign a capacity cost to a resource equal to ``cost of new entry (CONE) * (1 - ELCC)'', meaning the cost to procure the remainder of firm capacity that the resource cannot provide. This is a simplified heuristic, but it’s one way to internalize reliability cost.
+
+Another concept is Loss of Load Expectation (LOLE), typically 0.1 days/year (meaning one outage event in 10 years) as a common reliability standard. Ensuring that standard is met is how capacity requirements are usually set. When evaluating an investment, one could in principle compute how the LOLE would change and what if any additional cost to fix it would be. However, LOLE calculations are complex, so ELCC (which is derived from LOLE-type probabilistic simulations) is used to condense the info.
+
+\paragraph{Unit commitment and operational reliability:} On shorter timescales, reliability involves having enough ramping and reserves. Unit Commitment (UC) is the optimization problem of deciding which plants to have on at what times (and at what levels) to meet forecasted demand at minimum cost while respecting constraints \citep{wood2013}. UC problems include constraints like minimum up/down times, ramp rate limits, startup costs, etc., capturing the realities of thermal plant operations \citep{pjm2020}. Intermittent resources add complexity because their availability can be uncertain, so UC might be solved in a stochastic or robust way, or solved with forecasts and then adjusted (leading to the need for operating reserves to handle forecast errors).
+
+The reason this matters for valuation: a resource with challenging operational constraints or uncertainty can cause higher system operating costs (more reserves, more start-ups of other units, etc.). Some studies have quantified ``integration costs'' in terms of increased operating cost due to having wind/solar on the system (like more frequent cycling of coal plants leading to maintenance costs, or fuel efficiency losses from part-loaded gas plants). In UEVF, we intend the Dispatch Module to capture these intra-day or intra-hour operational costs, whereas the Reliability Module captures the long-term adequacy (capacity for peak).
+
+From literature, there have been attempts to assign a cost to variability. For example, some integration studies say wind might have an integration cost of \$5/MWh at 20\% penetration in terms of needed reserves and cycling \citep{hirth2015}. These can be methodologically controversial, but the important takeaway is that if a resource is less dependable or controllable, the system compensates by spending more elsewhere (be it on quick-start gas plants, or on holding thermal plants at part load for reserve, etc.).
+
+\paragraph{Summary of literature insights:}
+\begin{itemize}[nosep,leftmargin=*]
+    \item LCOE is a useful starting metric but inadequate alone for system planning in a renewables-rich grid \citep{joskow2011}.
+    \item LACE/VALCOE bring in the dimension of when and how energy is delivered, highlighting that value can differ from cost \citep{eia2020, iea2020}.
+    \item LFSCOE/LCOLC illustrate the large gap between isolated cost and system cost, particularly for intermittent resources \citep{idel2022, grimm2024}.
+    \item Reliability metrics (ELCC, LOLE) provide ways to quantify the capacity value of resources, which can be translated into costs (e.g., cost of supporting peak) \citep{milligan2016}.
+    \item Operational considerations (unit commitment, reserves) indicate there are non-zero costs to handling variability and inflexibility that should be considered \citep{wood2013}.
+\end{itemize}
+
+All these points in literature underscore a common theme: context matters. The cost of a resource cannot be fully evaluated without considering its context in the grid – timing, location, intermittency, flexibility, etc. This directly motivates the structure of UEVF, which is designed to bring context into the valuation in a systematic and quantifiable way.
+
+Before moving on, it’s worth noting that while many of the references point out problems with LCOE, there’s broad agreement that we need better metrics but not on what exactly those should be . Our UEVF proposition is in line with this ongoing discussion – it synthesizes several threads (cost, value, integration, reliability) into one framework.
+
+
+% Methodology Section
+\section{Methodology}
+Having established the need for a comprehensive framework and drawn insights from existing metrics, we now present the methodology for constructing the Unified Energy Valuation Framework (UEVF) and the Adjusted System-Level Cost of Delivered Electricity (ASCDE) metric.
+
+The methodology is organized as follows: First, we outline the analytical foundation -- the base formulas and optimization concepts underlying cost and reliability calculations. Next, we introduce each of the six core modules of UEVF in detail, including their formulation and rationale. Finally, we describe how these modules are integrated to form the complete ASCDE expression. Throughout, we emphasize symbolic derivations and theoretical clarity, avoiding reliance on any specific empirical dataset or simulation run, so that the framework remains general and transparent.
+
+\subsection{Analytical Foundation}
+
+\subsubsection{System Cost Optimization Perspective}
+At its heart, UEVF adopts a system cost optimization perspective: we consider that to reliably deliver electricity to consumers, the power system (or an investor planning a resource) must incur certain costs. Some of these costs are directly attributable to a specific power plant (like its capital and operating costs), while others are ancillary or induced costs due to the plant's characteristics (like needing extra reserve capacity if the plant is variable). The guiding principle is that any cost that the system must bear for the plant's electricity to be delivered at the required reliability and flexibility should be counted as part of that plant's effective cost (and conversely, any cost savings or value the system enjoys thanks to the plant should be credited).
+
+Conceptually, one can imagine a cost minimization problem for meeting electricity demand over a planning horizon:
+\begin{itemize}[nosep]
+    \item Decision variables include the capacity of various resources to build, their dispatch, maybe transmission investments, etc.
+    \item The objective is to minimize total present cost (capital, operating, etc.) subject to meeting demand at all times (with acceptable reliability).
+    \item Constraints include operational limits (generator capacities, ramp rates, transmission limits, etc.) and reliability criteria (LOLE or reserve margin, etc.).
+\end{itemize}
+
+This is essentially what an optimal capacity expansion plus dispatch model would do for planning. In such an optimization, the shadow price of the energy demand constraint in each time period gives the value of energy (locational marginal cost if we include network), and the shadow price of the reliability constraint (like the requirement to meet peak or LOLE) gives the marginal cost of capacity adequacy.
+
+Now, for a single resource evaluation, we take a partial equilibrium approach: we ask, if we add (or consider) one unit of a resource, what costs need to be added elsewhere to accommodate it (or what costs can be avoided)? Alternatively, if we were to supply a small portion of load with this resource, what would be the cost per MWh including everything?
+
+For rigour, one can define ASCDE via a thought experiment akin to a controlled experiment on the system:
+\begin{itemize}[nosep]
+    \item Baseline: a system meeting demand with some reference set of resources at an optimal (or current) cost.
+    \item Add a small quantum of the resource in question (or evaluate one project) and adjust the rest of the system optimally (this might involve decommitting some other capacity, adding a bit of transmission, etc.) to meet the same demand and reliability.
+    \item Compute the new total cost of the system.
+    \item ASCDE is the change in total cost divided by the change in delivered energy from the resource in question.
+\end{itemize}
+
+In the language of calculus, if \( C(x) \) is the total system cost as a function of the fraction \( x \) of energy served by a given resource (with optimal adjustment of everything else), then:
+\[
+\text{ASCDE} = \frac{dC}{dE}
+\]
+at \( x = 0 \) (for a marginal new entrant) or at a given \( x \).
+
+However, to avoid getting lost in marginal vs. average, we aim to derive ASCDE in a way that is applicable to a single project (which is a marginal addition from the system perspective, albeit possibly not infinitesimal).
+
+The modules can be understood as different components of that \( dC \) -- some are additions to cost, some are subtractions (savings), per unit of energy delivered by the project.
+
+\subsubsection{Reliability Constraint and Capacity Value}
+We incorporate reliability via a constraint such as:
+\[
+\text{LOLE} \leq \text{Target}
+\]
+or equivalently ensure a certain Planning Reserve Margin (PRM) is met. For simplicity, let us translate reliability to a deterministic requirement:
+\[
+\sum_{i} \text{ELCC}_i \cdot \text{Cap}_i \geq (1 + \text{PRM}) \cdot \text{PeakDemand}.
+\]
+
+This means the sum of effective capacities (nameplate times ELCC for each resource \( i \)) must exceed peak demand by a margin. ELCC here is the fraction of capacity counted towards adequacy. In optimization, this constraint would have a dual price (shadow price) which is basically the cost of adding a tiny bit more reliable capacity -- in equilibrium that price often equals the net cost of the marginal peaking unit (in capacity markets, it relates to CONE and expected outage costs).
+
+For a single resource addition, if the resource has ELCC less than 1, meeting this constraint will require some extra capacity from elsewhere. For instance, adding 1 MW of a resource with ELCC 0.5 effectively adds 0.5 MW to the left side. If the requirement needed 1 MW, we are short 0.5 MW, which might be fulfilled by some generic capacity (like a combustion turbine). The cost of that 0.5 MW backup (annualized) is part of the cost attributable to the resource.
+
+One way to quantify it: If the prevailing marginal cost of capacity (e.g., capacity market price or cost of peaker) is \$K per kW-year, and a resource of 1 kW has ELCC \( e \), then we need \( (1 - e) \) kW of backup. Cost = \( (1 - e) \times K \) per year, per kW of resource. Divide by the resource's annual energy output to put in per MWh terms (for ASCDE). Or incorporate directly into levelized cost by adding to numerator.
+
+This is essentially how we will handle the Reliability Module in formula.
+
+\subsubsection{Economic Dispatch and Operating Cost}
+On the operational side, consider a simplified dispatch model (for one period or many). When a new resource is added:
+\begin{itemize}[nosep]
+    \item It might directly replace energy that would have been generated by another source, saving fuel and variable O\&M (a benefit).
+    \item It might cause additional ramping or part-loading of other plants (a cost).
+    \item If it is variable, it might cause some periods of oversupply (curtailment) or need fast reserves (cost).
+    \item If it is inflexible (like a nuclear plant that cannot easily ramp down), integrating it with variable demand might cause inefficiencies (like having to cycle other plants more).
+\end{itemize}
+
+Quantifying these can be done via production simulation models; however, in our theoretical development we will represent them abstractly. For example:
+\begin{itemize}[nosep]
+    \item We can assign a profile \( p(t) \) for the resource's output (normalized to 1 MW capacity or per MWh delivered).
+    \item We can quantify a ``utilization factor'' or curtailment fraction: not all potential energy might be utilized if it does not coincide with demand or transmission availability.
+    \item Additional reserve requirement: an intermittent resource might require a certain fraction of its capacity in spinning reserve to cover forecast error.
+\end{itemize}
+
+We can incorporate a term for integration operating cost: say \( \Delta C_{\text{op}} \) per MWh of the resource, due to increased reserves, starts, etc. Literature might give some typical values, but since we are deriving, we could symbolically denote it.
+
+One approach is to tie it to reserves cost: If a resource of type \( i \) has a standard deviation of forecast error \( \sigma \) and requires \( X \) MW of reserves per MW to cover \( N-\sigma \) deviations, and reserve cost is \$R per MW-h, then cost per MW of capacity = \( X \cdot R \) (over year) / MWh produced yields \$/MWh. We will not delve too deep; we keep it at a level like:
+\[
+C_{\text{dispatch}} = \text{(cycling \& reserve cost per MWh)}.
+\]
+
+\subsubsection{Transmission and Delivery}
+If a new plant is in location A and load is in location B, delivering power may require transmission capacity. Either existing lines are used (if not congested) or new investment is needed. Transmission costs can be highly project-specific, but often planners consider an ``integration cost'' \$/MWh for remote renewables which includes new transmission. For example, a wind farm in a distant location might require a new \$200 million line that adds, say, \$5/MWh to its delivered cost when amortized.
+
+In our framework, the Transmission Module will capture a cost \( C_{\text{trans}} \) which could be expressed as \$/kW of the project (for network upgrades) or \$/MWh delivered (for losses and congestion). We can consider:
+\begin{itemize}[nosep]
+    \item A fixed cost adder (if an entire line is built for it).
+    \item Losses: if power travels far, line losses mean not all generated MWh is delivered. We could treat losses as effectively reducing delivered energy or as requiring extra generation (which has a cost).
+    \item Congestion: if the line is congested, some energy might be curtailed or a higher cost might occur to alleviate congestion.
+\end{itemize}
+
+We will likely express it simply as an adder cost per MWh reflecting needed network investment proportional to capacity.
+
+\subsubsection{Modules as Cost Components}
+Now, summarizing how we will frame each module methodologically:
+\begin{itemize}[nosep]
+    \item \textbf{Dispatch Module}: Accounts for net changes in operating cost (positive or negative) due to the resource's presence, including fuel savings and increased reserve/efficiency losses. Method: compare a unit dispatch cost with and without the resource (conceptually).
+    \item \textbf{Fuel Supply Module}: Accounts for costs to ensure fuel availability for thermal plants or energy supply for non-fuel resources. For a gas plant, if we assume fuel is readily available (well, not always true as we learned from fuel security issues), but in stressed scenarios, e.g., dual-fuel or firm gas transport contracts might be needed. For a renewable, fuel supply cost is zero (sunlight is free), but one might argue storage of energy is separate (that is in Storage Module). So Fuel Supply Module will mainly apply to thermal: e.g., cost of maintaining on-site oil backup for a dual-fuel unit, or cost of gas storage, or pipeline capacity contracts. We can quantify it as a \$/MWh if known (like how much extra cost per MWh to firm up fuel).
+    \item \textbf{Storage Module}: Accounts for cost of storing energy to move it in time. If evaluating, say, a solar farm, one might assign some fraction of a battery required to shift some of its output to evening. Or more formally, if the resource's generation profile does not match load, storage is used to cover the gaps. We can think in terms of needed storage power (MW) and energy (MWh) capacity per MW of resource, multiplied by the cost of storage, giving an added cost. This can be levelized and divided by energy delivered (some delivered in real time, some via storage).
+    \item \textbf{Transmission Module}: Accounts for cost of transmission upgrades (or credits for avoided transmission). We quantify any incremental transmission capital or significant network reinforcement attributable to the project. E.g., if 1000 MW of wind in remote area needs a \$X billion line, allocate per MW, per MWh.
+    \item \textbf{Reliability Module}: Accounts for cost of ensuring capacity adequacy (as discussed, basically \( (1 - \text{ELCC}) \cdot \text{CONE} \) allocated per MWh).
+    \item \textbf{Market Value Module}: This one is slightly different: it is not a ``cost'' that someone pays; it is more an adjustment for the fact that the energy might not displace average cost energy. In a theoretical least-cost system, all energy is used to serve load, but when comparing resources, the one that produces at high-value times has more benefit. We incorporate Market Value by effectively crediting the resource if it produces at expensive times or penalizing if at cheap times.
+\end{itemize}
+
+One could implement Market Value as a multiplier on energy. For example, define a ``value factor'':
+\[
+v = \frac{\text{value of 1 MWh from this resource}}{\text{value of 1 average MWh}}.
+\]
+If \( v < 1 \), then effectively, to deliver 1 ``average'' MWh worth of value, the resource must generate more than 1 MWh (some of which might be surplus or low-value). This could be seen as needing to build more or curtail some. Alternatively, one can incorporate it as a revenue adjustment -- but since we want cost of delivered electricity, maybe better is to say:
+\[
+\text{ASCDE} = \frac{\text{Total Cost}}{\text{Value-adjusted MWh}}.
+\]
+But likely simpler is: we first compute all costs for a resource's actual generation, then divide by the effective delivered MWh (taking into account curtailment or lower value as a fraction).
+
+Another approach: subtract a credit for value. For instance, if a plant avoids fuel cost in other generators 90\% of the time but 10\% of its output is excess and does not avoid fuel (curtailed), then credit for avoided cost is only 90\% of its output. The remainder's cost should be charged to it as effectively wasted or low-value.
+
+In summary, methodologically:
+\begin{itemize}[nosep]
+    \item Modules 1--5 (Dispatch, Fuel, Storage, Transmission, Reliability) largely manifest as additional costs (or in some cases negative costs if a resource saves something, e.g., a local generator might have a negative Transmission cost because it defers transmission upgrades -- we can allow negative module costs to represent credits).
+    \item Module 6 (Market Value) often acts as a scalar adjustment or credit reflecting that not every MWh produced is equally useful in displacing costs. We might implement it by adjusting the denominator (delivered MWh) or by an equivalent cost adder that accounts for the difference between produced and valued energy.
+\end{itemize}
+
+Next, we delve into each module's formulation specifically.
+
+\subsection{UEVF Core Modules Formulation}
+In this section, we formally define each of the six modules of UEVF. For each module, we present:
+\begin{itemize}[nosep]
+    \item A description of what it encompasses (and why it matters).
+    \item Key parameters or variables needed.
+    \item A mathematical expression or procedure for quantifying the module's cost contribution.
+    \item Discussion of edge cases (when the module is zero or negative, etc.).
+\end{itemize}
+
+\subsubsection{Dispatch Module}
+\textbf{Scope}: The Dispatch Module captures the operational cost impact of integrating the resource into the daily and hourly management of the grid. This includes how the resource's availability pattern and controllability affect the cost of committing and dispatching other resources. It essentially answers: Does adding this resource increase or decrease the total production (fuel + O\&M) cost needed to balance supply and demand, and by how much per MWh of its generation?
+
+For a fully dispatchable resource with no surprises (like a gas combined cycle that we can turn on when needed), ideally it only decreases system operating cost by displacing more expensive generation (so it has a positive effect -- fuel cost savings). However, if the resource has operational constraints (like a nuclear plant that cannot load-follow well) or if it requires keeping other units running for support (like having to keep a spinning reserve because it might trip or output drop), there could be additional costs.
+
+For an intermittent resource, this module would capture the additional balancing costs: e.g., the cost of keeping fast ramping plants online to cover wind forecast errors, the wear-and-tear from cycling other plants more often, etc. Studies sometimes call these ``ancillary service costs'' or ``cycling costs''.
+
+\textbf{Parameters}:
+\begin{itemize}[nosep]
+    \item \( E(t) \): the output profile of the resource across time (could be normalized to 1 MW capacity or scaled to actual size).
+    \item \( \Delta C_{\text{fuel}}(t) \): reduction in fuel \& variable O\&M cost of other plants at time \( t \) due to this resource's output (a benefit, likely equal to marginal cost of displaced generator \(\times\) MWh).
+    \item \( \Delta C_{\text{start}}(t) \): any increase in start-up costs or cycling costs at time \( t \) triggered by the resource (e.g., if solar output causes midday thermal shutdowns and evening restarts).
+    \item \( \Delta C_{\text{res}}(t) \): cost of additional reserves (if any) needed at time \( t \) because of the resource's uncertainty or variability.
+    \item Possibly, \( \Delta C_{\text{curt}}(t) \): cost associated with curtailment if the resource at time \( t \) produces beyond what can be used (though that is more a loss of value than an explicit cost, we might handle it here or in Market Value).
+\end{itemize}
+
+To compute, one could run two dispatch optimization: with and without the resource, and compare costs. The difference in total operating cost, divided by energy generated by the resource, gives an average cost impact per MWh.
+
+We define the Dispatch Cost Adder (could be negative if a cost reduction) as:
+\[
+C_{\text{disp}} = \frac{\int_{t} [\Delta C_{\text{start}}(t) + \Delta C_{\text{res}}(t) + \text{any other increase}]\,dt}{\int_{t} E(t)\,dt}.
+\]
+And similarly define the fuel savings benefit per MWh:
+\[
+B_{\text{fuel}} = \frac{\int_{t} \Delta C_{\text{fuel}}(t)\,dt}{\int_t E(t)\,dt}.
+\]
+
+Then the net effect per MWh is \( -B_{\text{fuel}} + C_{\text{disp}} \) (it is negative because fuel saving reduces cost).
+
+However, it might be simpler to incorporate it as one net \( C_{\text{dispatch}} \) which could be negative, zero, or positive. For clarity, perhaps think of it as:
+\[
+C_{\text{dispatch}} = C_{\text{int}} - C_{\text{disp, saved}},
+\]
+where \( C_{\text{int}} \) is ``integration operating costs'' and \( C_{\text{disp,saved}} \) is the saved cost.
+
+Alternatively, we incorporate fuel savings as part of Market Value (since that is energy value). But I think logically, it belongs here because it is an operational thing: the resource displaces fuel cost -- that is a benefit in dispatch. Actually, that is the main benefit of adding any generator: reducing the need to run others.
+
+We could even calibrate: if a resource is perfectly reliable and flexible, the only effect is fuel cost savings equal to the marginal cost of displaced generation (like LMP). Then \( C_{\text{dispatch}} \) would be negative by that amount, and Market Value might capture the fact that sometimes that fuel cost is high vs low.
+
+To avoid double counting with Market Value, one approach is: consider an ideal system with flat demand and the resource has a flat output at average value, it displaces average cost generation. Then fuel savings per MWh = average cost of generation. If we used Market Value to adjust for differences from average, then maybe in baseline scenario, \( C_{\text{dispatch}} \) always equals average fuel cost saved, and Market Value factor is 1 (no adjustment). In a scenario where resource produces mostly at lower-than-average cost times, the average fuel saved per MWh is less -- that could be directly captured here without a separate Market Value module, by actual chronological dispatch calc. However, Market Value is conceptually easier to handle by adjusting after cost, so perhaps:
+\begin{itemize}[nosep]
+    \item In Dispatch Module, assume it displaces an average cost per MWh equal to system average (so you give it a credit for that average fuel saving).
+    \item Then in Market Value Module you adjust if it was not average.
+\end{itemize}
+
+But to be precise, better to do chronological, but that is complex for closed form.
+
+Maybe we do:
+\[
+C_{\text{dispatch}} = 0 \quad (\text{taking fuel savings as baseline})
+\]
+and treat fuel savings via Market Value module's credit. But no, the user likely expects dispatch covers the production cost differences and Market Value covers price/value differences.
+
+Alternatively:
+\begin{itemize}[nosep]
+    \item Let us define system-average generation cost = \( C_{\text{avg}} \) (\$/MWh).
+    \item If the resource produces at times where generation cost is on average \( C_{\text{gen}} \), then fuel saving per MWh = \( C_{\text{gen}} \).
+    \item We can break \( C_{\text{gen}} = C_{\text{avg}} + \Delta \). If \( \Delta \) is negative, resource displaces cheaper-than-average energy (like off-peak), if positive, displaces more expensive (peak).
+    \item Then treat \( C_{\text{avg}} \) as default and any \( \Delta \) goes to Market Value (because that is due to time, i.e., price difference).
+    \item Meanwhile, any additional integration cost (like reserve cost, cycling) adds an integration adder \( C_{\text{int}} \).
+\end{itemize}
+
+So in formula:
+\[
+C_{\text{Dispatch Module}} = C_{\text{integration}}.
+\]
+And in Market Value, we will incorporate the \( \Delta \) (so that VALCOE logic is mirrored: cost adjusted by value timing).
+
+However, integration and dispatch are closely linked. To avoid confusion, we might include everything in Dispatch and then define Market Value purely as revenue difference if needed. But since we are not doing actual market financial analysis, perhaps better:
+\begin{itemize}[nosep]
+    \item In cost terms, fuel saving is a negative cost (benefit).
+    \item Variation of fuel saving from average is not a ``cost'' but a reduction of benefit (which is like an opportunity cost). Could incorporate as cost though.
+\end{itemize}
+
+We can phrase it like: Market Value Module ensures that if the resource's generation is less useful, some of its energy is effectively curtailed or wasted from a cost perspective.
+
+Anyway, to keep methodology structured: For now, we define an equation as if we ran a dispatch comparison:
+\[
+\Delta C_{\text{oper}} = \int [C_{\text{with}}(t) - C_{\text{without}}(t)]\,dt,
+\]
+and \( E = \int E(t) \, dt \) delivered.
+
+Then Dispatch Module cost per MWh = \( \Delta C_{\text{oper}} / E \). If the resource always displaces higher-cost generation without causing any issues, \( \Delta C_{\text{oper}} \) is negative (since with it total cost is lower), and we would get a negative value (meaning it is actually a saving, which would be weird to call a ``cost adder'' -- maybe we call it dispatch benefit). Conversely, if it causes integration difficulties, \( \Delta C_{\text{oper}} \) could be positive (meaning it made the total cost higher than expected by just fuel saved, which can happen if you need to spill energy or run backups inefficiently).
+
+So, the Dispatch Module result could be positive, zero, or negative. In assembling ASCDE, we would add it (so if it is negative, it subtracts and lowers cost, which makes sense).
+
+For theoretical derivation, we likely assume a small impact and linearization possible.
+
+We may not need an explicit closed form beyond such an integral. But to illustrate conceptually, we might say:
+\[
+\Delta C_{\text{oper}} = -\int \text{(Displaced generation cost)} + \int \text{(extra reserve/ start cost)}.
+\]
+
+To connect to known ideas: If a resource was perfectly reliable and produced a flat output, \( \Delta C_{\text{oper}} \) would be just negative of the fuel cost of the marginal plant it replaces, nothing else. If that marginal plant is the average plant, then it is basically \( -\text{LACE} \cdot \text{energy} \). If the marginal is lower or higher cost than average, that difference is essentially the value factor.
+
+\textbf{Edge cases}:
+\begin{itemize}[nosep]
+    \item A fully dispatchable, controllable resource that can follow load (e.g., a gas plant or hydro) has minimal integration cost. The dispatch module for it would likely be a net benefit (fuel saving equal to its generation times the marginal cost it displaces), so if we calculate it as a cost adder, that would be negative. Perhaps we separate ``dispatch benefit'' vs ``dispatch cost''. But likely in ASCDE formulation, we might put a minus sign somewhere.
+    \item A very intermittent resource (wind/solar) might cause additional costs.
+    \item A must-run inflexible resource (nuclear base load) might cause some inefficiency at low load hours (other plants have to reduce or it could cause curtailment of cheaper energy at times, etc.).
+\end{itemize}
+
+We will incorporate an assumption that small deviations can be linearized: the cost impact per MWh is roughly constant for a small project if system is large.
+
+We may cite a generic reference that grids with high intermittent generation need more balancing cost which we have: Indeed \cite{hirth2015} mentions ``Grids with very large amounts of intermittent power sources\ldots may incur extra costs associated with needing storage or backup generation available'' -- that partially covers both storage (our separate module) and backup (which could be dispatch or reliability).
+
+Anyway, for the methodology section, we present the formula and say to be later used in ASCDE assembly.
+
+\subsubsection{Fuel Supply Module}
+\textbf{Scope}: The Fuel Supply Module accounts for the infrastructure and reliability of fuel delivery for resources that consume fuel (like gas, coal, oil, hydrogen in future, etc.). In the context of the U.S. power system, this has become salient especially for natural gas-fired plants -- their dependency on pipeline gas can become a vulnerability during extreme events (e.g., winter cold snaps) when gas supply might be constrained or diverted for heating, leading to generator outages (the 2018 ISO-NE fuel security study and 2021 Texas event are examples).
+
+Fuel supply costs are often not captured in LCOE beyond the commodity price itself. For example, LCOE will include the cost of fuel (e.g., \$/MMBtu \(\times\) heat rate) assuming availability. But it might not include the cost of building on-site fuel storage, maintaining dual-fuel capability (being able to burn oil as backup), or paying for firm gas transportation contracts (which ensure you get gas even when pipelines are congested, as opposed to interruptible service which is cheaper but can be cut off).
+
+For non-fuel resources (wind, solar, hydro, etc.), there is no fuel delivery chain in the traditional sense -- their ``fuel'' is ambient and free. So one could say Fuel Supply Module cost is zero for them. One might stretch the definition to consider things like the water resource for hydro (but usually water rights and such are not evaluated in these terms for cost of electricity) or maybe that some renewables have variability which is akin to uncertain fuel supply (but that is better handled under dispatch/reliability, not here).
+
+Thus, Fuel Supply Module will typically apply to thermal plants and possibly emerging fuels (like hydrogen -- cost of hydrogen supply infrastructure could be considered analogously, but that is future tech). Also, for storage like batteries, ``fuel'' is electricity which presumably comes from the grid or co-located generation -- not relevant here except as an energy cost which is accounted in dispatch.
+
+\textbf{Parameters}:
+\begin{itemize}[nosep]
+    \item For gas units: do they have firm pipeline contracts? If not, what is the risk and cost of not having fuel when needed? If we want to ensure availability, they might need either firm contracts or backup fuel (like an oil tank for dual-fuel).
+    \item The cost of a firm gas contract might be an upfront reservation fee. This can be levelized per MWh (or per MW-year).
+    \item The cost of installing and maintaining an oil tank (for dual-fuel) plus keeping some inventory of oil is a capital + O\&M cost. Similarly for coal: ensuring coal delivery by rail and maintaining a coal pile (the cost of inventory, some handling losses).
+\end{itemize}
+
+We can quantify an annual cost for fuel assurance: Let us say a gas plant can pay \$X per kW-year to get firm gas (or equivalently invest in alternatives). Then per MWh, if capacity factor is CF, that becomes \( X / (\text{CF} \cdot 8760) \) \$/MWh.
+
+Alternatively, if no firm supply, risk of outage exists. If we want to cover that risk, we might need additional reliability measures (like have an extra plant on standby). But that gets complicated. Maybe incorporate that risk cost in reliability (since a plant that might not have fuel effectively has lower reliability). Actually yes, one could degrade the ELCC of a gas plant if it does not have firm fuel -- if it is likely to not be available in extreme conditions, its ELCC is lower. That would then reflect in Reliability Module's cost (needing more backup capacity to cover that uncertainty). Perhaps that is a better approach: treat fuel security as part of reliability evaluation of that unit.
+
+However, from a planning perspective, there is an increasing recognition that we must ensure fuel or else treat the plant's contribution as less. ISO-NE in its analysis effectively found certain gas units could not be counted on in winter without oil backup or LNG.
+
+For our framework, perhaps simplest: assume if one desires a fully reliable resource, one must pay for firm fuel. So include that cost here explicitly.
+
+Thus, Fuel Supply Module cost \( C_{\text{fuel-supply}} \) is:
+\begin{itemize}[nosep]
+    \item If resource is fuel-free (wind/solar/hydro/nuke with on-site fuel for 18 months etc): 0 or negligible (nuclear buys fuel but the supply chain is stable, except maybe minor cost for long-term disposal but that is not supply interruption).
+    \item If gas/coal: cost for securing supply chain beyond the commodity itself.
+\end{itemize}
+
+We can express:
+\[
+C_{\text{fuel-supply}} = \frac{\text{Cost}_{\text{fuel security measures (annual)}}}{\text{Annual MWh}}.
+\]
+For example, a dual-fuel retrofit and tank might add 5\% to capital cost and some O\&M; a firm pipeline contract might add a few percent to fuel cost or a fixed demand charge.
+
+If that data is not known, we maintain it symbolic.
+
+\textbf{Edge cases}:
+\begin{itemize}[nosep]
+    \item Some plants might already have inherent fuel security (e.g., a site with its own gas storage). Then cost is internalized in the project cost.
+    \item If fuel supply is insecure and no measures taken, then the plant's reliability is lower. That should properly reflect in reliability module (less ELCC). We could double count if we are not careful: either you pay for fuel security to keep ELCC high, or if you do not, ELCC drops and reliability module forces more backup capacity, which adds cost anyway.
+\end{itemize}
+So either path yields a cost -- paying upfront for fuel vs paying later for backup. UEVF can accommodate both, but ideally we consider the least-cost approach: if it is cheaper to just build a 0.1 MW extra peaker than to ensure fuel for that 1 MW gas, the model might do that. But we are not solving an optimization explicitly here; maybe we either assume fuel will be secured (and charge cost) or if not, we will incorporate the lost capacity value accordingly.
+
+To keep things straightforward: we might assume resources are provided with necessary fuel infrastructure to perform as expected, and thus include that cost. If not, one could adjust ELCC but that is an advanced nuance we only mention conceptually.
+
+So final output: We define a cost per MWh \( C_{\text{fuel}} \). For gas, example: If firm transport costs \$Y per MMBtu capacity per day, convert to per kW-year, etc, result maybe \$Z/MWh. We keep \( C_{\text{fuel}} \) general.
+
+\subsubsection{Storage Module}
+\textbf{Scope}: The Storage Module quantifies the cost of energy storage or other buffering needed to accommodate the resource's temporal generation pattern. This is particularly important for intermittent renewable resources whose production is misaligned with demand (e.g., solar producing midday vs peak in evening or winter). The need for storage can also arise for inflexible resources (like if a nuclear plant cannot reduce at night, one might store energy at night to use at day? although usually we just curtail nuclear if needed, but theoretically). However, the archetypal case is: ``We have this resource's generation profile; how much storage (in MW and MWh) do we need so that its energy can meet load when needed?''
+
+In essence, this module is like a smaller scale or partial version of what LFSCOE does -- pairing the resource with enough storage to make it more dispatchable. We are not necessarily making it 100\% dispatchable, but enough to cover typical intra-day variations. We might not cover multi-day variability fully (that could be enormous cost if trying to cover a week of no wind with just storage). Some combination of storage and overbuilding plus curtailment might be optimal. But rather than solve an optimization for each resource, planners have rules of thumb or integrated analysis.
+
+\textbf{For theoretical formulation}:
+\begin{itemize}[nosep]
+    \item Let resource provide energy \( E(t) \).
+    \item Let demand (or the desired delivery profile for that resource's contribution) be \( D(t) \) -- for example, if the resource is meant to provide some firm output shape (maybe proportional to load or a flat output).
+    \item Storage of capacity \( P \) (power) and \( H \) (energy, i.e., can store up to \( H \) MWh) could be used to shift energy from times when \( E(t) > D(t) \) to times when \( E(t) < D(t) \).
+\end{itemize}
+
+In an extreme, if we wanted the resource to be as good as firm baseload, we would need enough storage to cover the longest lull in its production, etc., which becomes LFSCOE territory.
+
+But for ASCDE, we want cost per delivered MWh, so if some of the resource's energy has to go through storage, incurring losses and storage cost, that adds to cost.
+
+We can quantify:
+\begin{itemize}[nosep]
+    \item \( X\% \) of the resource's energy is directly useful at time of generation.
+    \item The remaining \( (100 - X)\% \) needs shifting via storage.
+    \item For that portion, we incur a storage cost: capital cost for power and energy capacity, losses (which effectively means not all energy is delivered, linking to Market Value perhaps if energy is lost).
+    \item The cost of a battery or other storage can be levelized (\$/kW-year and \$/kWh-year). If a resource of 1 MW requires, say, 0.5 MW of battery with 2h storage to be effectively used, then allocate that battery's cost.
+\end{itemize}
+
+Alternatively, one could embed this in reliability or dispatch. But we isolate it to highlight storage as a solution for balancing.
+
+A simple formula might be:
+\[
+C_{\text{storage}} = \frac{\text{Cost}_{\text{storage needed for resource}}}{E_{\text{delivered}}}.
+\]
+
+If we denote:
+\begin{itemize}[nosep]
+    \item \( \text{kW}_{\text{req}} \) and \( \text{kWh}_{\text{req}} \) per kW of resource,
+    \item cost of storage per kW = \$A, per kWh = \$B,
+    \item then for a resource of capacity \( N \) kW, storage cost = \( N \cdot (A \cdot \text{kW}_{\text{req}} + B \cdot \text{kWh}_{\text{req}}) \).
+\end{itemize}
+Divide by annual MWh from \( N \) kW (which is \( N \cdot \text{capacity factor} \cdot 8760 \)).
+
+Better to derive per MWh:
+\[
+C_{\text{storage}} = \frac{A \cdot \text{kW}_{\text{req}} + B \cdot \text{kWh}_{\text{req}}}{\text{CF} \cdot 8760}
+\]
+(for one kW resource providing \( \text{CF} \cdot 8760 \) kWh a year delivered).
+
+We need to estimate \( \text{kW}_{\text{req}}, \text{kWh}_{\text{req}} \). Those depend on resource variability and desired performance. Possibly connect to ELCC: to get ELCC up, one either adds storage or accepts low ELCC. Actually, storage can substitute for backup capacity as well.
+
+So note: there is interplay between Storage Module and Reliability Module. For example, instead of building a gas peaker as backup (reliability cost), one might use storage to cover shortfalls. Our framework separated them, but they can overlap. We should ensure either one or the other covers a scenario, or we allow both and in a real planning you would choose least cost combination.
+
+However, we can think: reliability module covers peak adequacy (like ensures at least say 4--8 hours of capacity at peak), whereas storage module covers energy shifting beyond just peak, like daily shape smoothing.
+
+Maybe differentiate:
+\begin{itemize}[nosep]
+    \item Reliability Module might handle long duration shortfall by adding firm capacity (which could also be a long-duration storage like pumped hydro if economic).
+    \item Storage Module addresses shorter duration intraday shifting more explicitly.
+\end{itemize}
+
+But lines are blurry. It is fine; including both just ensures if storage is cheaper to meet some reliability, presumably one could reflect that by assuming some of reliability requirement satisfied by storage.
+
+To avoid double counting, possibly treat reliability as capacity (MW) issue and storage as energy shifting (MWh capacity) issue.
+
+Yes, perhaps:
+\begin{itemize}[nosep]
+    \item Storage Module ensures energy produced at one time can be used at another within a day or so. That is about energy (MWh) management and short-term adequacy.
+    \item Reliability (Capacity) Module ensures peak capacity (MW) adequacy even if energy is sufficient. E.g., if a week of low wind, maybe storage energy is not enough (would need enormous storage), but reliability module says have a gas peaker.
+\end{itemize}
+
+So one might dimension storage in Module such that common daily or diurnal mismatches are handled, but not extreme long lull. For extreme, you have a backup (reliability module).
+
+This resembles some integrated solutions where they assign some storage for solar to extend into evening (4--5 hours battery) but still rely on firm capacity for multi-day.
+
+Hence, we will proceed with an independent storage module and let reliability cover what storage does not.
+
+Therefore, method: determine an optimal storage sizing to complement 1 MW of the resource for daily shifting. The criterion might be diminishing returns: beyond some storage, additional helps less. Many renewables integration studies optimize amount of storage vs curtailment vs overbuild. The result can be complicated, but we can illustrate.
+
+To keep it general: we assume a certain representative storage requirement. For solar PV in California, for instance, it is often cited that a 1 MW solar might be paired with \(\sim\)0.25 MW / 1 MWh battery to shift some afternoon to evening. We will not put specific, just the concept.
+
+We incorporate:
+\begin{itemize}[nosep]
+    \item If resource is dispatchable/fuel-based, storage need 0 (they can produce when needed by burning fuel).
+    \item If resource is variable renewables: some storage beneficial, cost captured here.
+\end{itemize}
+
+We might mention a known result: e.g. for high wind grids, beyond a certain penetration, large storage needed, but at moderate, perhaps some quick response helps more (which could also be captured in dispatch cost as reserves cost).
+
+Anyway, we proceed qualitatively.
+
+Thus:
+\[
+C_{\text{storage}} = \text{Levelized cost of storage (per kW and per kWh)} \times \text{quantity required per MWh of resource output}.
+\]
+
+One way: if \( Y\% \) of resource's MWh go through storage with round-trip efficiency \( \eta \), then for 1 MWh delivered after storage, \( 1/\eta \) MWh was input, meaning some loss. But the cost of that lost fraction's generation is an additional cost. That gets complicated, but we might consider it negligible if small, or include in dispatch cost already perhaps as needing to generate more if storing.
+
+Maybe too detailed; keep at cost of storage capacity.
+
+\subsubsection{Transmission Module}
+\textbf{Scope}: The Transmission Module addresses the cost of transmission and distribution (T\&D) network upgrades or usage necessary for the resource. This covers:
+\begin{itemize}[nosep]
+    \item New transmission lines or expansion needed to connect remote generation (like an off-shore wind farm or a solar farm in a desert far from cities).
+    \item Grid reinforcement needed to accommodate power flows (e.g., upgrading transformers, adding reactive power support).
+    \item Congestion costs if not enough transmission is built (which effectively could be seen as either cost via congestion rents or as an economic penalty if generation is curtailed due to grid limits).
+    \item In some cases, distribution system costs if it is a distributed resource (like rooftop solar might avoid some T\&D losses, or might need voltage regulation gear).
+\end{itemize}
+
+For a centralized generation project, often a transmission study identifies needed upgrades. These can be socialized or charged to the project. In evaluating true cost to society, we should include them.
+
+\textbf{Parameters}:
+\begin{itemize}[nosep]
+    \item \( L \): distance from load or point of interconnection, and whether existing capacity exists.
+    \item If an existing line has capacity, maybe no new cost except minimal (0 if truly no upgrade).
+    \item If not, some \$/MW-mile for new line plus substations, etc.
+    \item Once built, that line might serve multiple projects, but we could allocate proportionally.
+\end{itemize}
+
+One can incorporate an average transmission cost adder often cited by studies (like \$10/MWh for some wind, etc.). Or more scientifically:
+\[
+C_{\text{trans}} = \frac{\text{Cost}_{\text{new transmission for project}}}{\text{Project MWh delivered}}.
+\]
+
+As a formula: if a project of \( P \) MW requires a new line costing \$T (levelized per year), and project generates \( P \cdot \text{CF} \cdot 8760 \) MWh/year delivered,
+\[
+C_{\text{trans}} = \frac{T}{P \cdot \text{CF} \cdot 8760}.
+\]
+
+Transmission also has losses: if 5\% of energy lost over distance, effectively need to generate 1.05 MWh for 1 MWh delivered. We could treat the lost 0.05 as additional cost equal to 0.05 \(\cdot\) LCOE of resource per MWh delivered (which in large scheme, minor maybe).
+
+However, for completeness we might mention line losses as part of trans module as well.
+
+Distribution: If the resource is distributed (like rooftop PV), it might avoid some transmission capacity, so arguably a negative cost (a value). That could be counted as a negative Transmission Module cost (credit). In regulated utility studies, distributed resources often get a ``T\&D deferral value'' per kW.
+
+So our framework allows \( C_{\text{trans}} \) positive for needing new lines or negative if it avoids/upgrades not needed.
+
+For large scale generation, likely positive or zero.
+
+We will incorporate: If resource is at load (e.g., energy efficiency or rooftop solar maybe out of scope since we focus generation, but conceptually if it was we would credit).
+
+Focus: remote renewables get an adder.
+
+In the U.S., for example, wind in the Midwest needed CREZ lines (Texas) costing billions. If we levelize those into cost per MWh of wind delivered, that is part of true cost.
+
+We might mention for example: an analysis might find an extra \$15/MWh for transmission to integrate a lot of wind in certain scenarios (though that specific line is about something else, but in external reading I recall integration cost estimates).
+
+We will keep it general.
+
+\subsubsection{Reliability Module}
+\textbf{Scope}: The Reliability Module quantifies the cost associated with ensuring resource adequacy (long-term supply reliability) given the resource's contribution. As discussed, this heavily involves the concept of capacity credit (ELCC). Essentially, if a resource does not provide full firm capacity equal to its nameplate, the shortfall must be met by other means -- typically building or maintaining additional firm capacity of some kind. The Reliability Module calculates the cost of that supplemental capacity per MWh of the resource.
+
+We formalize:
+\begin{itemize}[nosep]
+    \item Let resource capacity = \( P \) (MW).
+    \item Let ELCC = \( e \) (pu of \( P \), between 0 and 1).
+    \item The firm capacity shortfall = \( P \cdot (1 - e) \) that must be covered by something else to maintain reliability.
+\end{itemize}
+
+What covers it?
+\begin{itemize}[nosep]
+    \item It could be a peaker plant (like a simple cycle gas turbine), or demand response contracts, or storage of long duration, etc. We assume the least-cost generic option for firm capacity, often approximated by the Cost of New Entry (CONE) for a peaker (like \(\sim\)\$100/kW-year, depending on region).
+    \item If the system already has excess capacity, short-term that cost might be zero (no need to build immediate). But long-run, to integrate large shares, you will eventually build something, so conceptually include it.
+\end{itemize}
+
+We define:
+\[
+C_{\text{cap}} = \text{annualized cost of 1 kW of peaking capacity (or firm capacity) [\$/kW-year]}.
+\]
+(This could be derived from a plant capital cost plus fixed O\&M, etc. For a simple CT maybe \$50--100/kW-yr depending on assumptions.)
+
+Then the annual cost for backup for this resource = \( P \cdot (1-e) \cdot C_{\text{cap}} \).
+
+Now per MWh of the resource (annual MWh = \( P \cdot \text{CF} \cdot 8760 \)):
+\[
+C_{\text{reliability}} = \frac{P \cdot (1-e) \cdot C_{\text{cap}}}{P \cdot \text{CF} \cdot 8760} = \frac{(1-e) \cdot C_{\text{cap}}}{\text{CF} \cdot 8760}.
+\]
+
+We note that if resource is perfectly firm (\( e=1 \)) or if it has extremely high capacity factor (which means each kW gives many MWh, diluting the capacity cost), the cost per MWh is small.
+
+If a resource has \( e=0 \) (like a solar with no contribution at peak if peak is at night), then it must be fully backed up, so basically it pays the full cost of a peaker and the cost is something like \(\frac{1 \cdot C_{\text{cap}}}{\text{CF} \cdot 8760}\). Solar CF maybe 20\%, so that might be quite high \$/MWh. (e.g., if \( C_{\text{cap}}=\$100/\text{kW-yr} \), CF=0.2, then \( 100/(0.2 \cdot 8760) \approx \$5.7/\text{MWh} \)). Actually, not super high because peakers are relatively cheap per kW. If it was battery or more expensive tech needed could be more.
+
+But if high reliability is needed beyond a few hours, the cost might be higher (like multi-day backup might need more expensive or fuel).
+
+However, we keep it one number approach.
+
+We might adjust \( C_{\text{cap}} \) depending on situation: if evaluating extreme high renewable where you might need long-duration backup, perhaps that backup cost rises (e.g., fuel for backup needed when renewables not producing for days, etc. But presumably a gas peaker with firm fuel covers it, which we partly handled in Fuel Supply and here basically the cost of having that peaker ready.)
+
+So reliability cost covers capacity, not energy. The energy those peakers produce occasionally is small and its fuel cost for those rare events is negligible in average cost, so we do not need to allocate that specifically (or we can assume the energy they produce is covered by Dispatch Module as part of system dispatch cost anyway).
+
+One nuance: at very high penetration of a resource like wind, its ELCC declines (the more wind, the less incremental wind helps reliability, can drop to near 0 at extreme). Our metric is presumably for a given penetration or for one project small enough not to change \( e \) drastically. So we assume an ELCC value in context. (This could be a function of penetration, which we might mention conceptually, e.g., ``the ELCC of solar declines as penetration increases, so reliability cost per MWh grows'').
+
+So the formula stands as above.
+
+\textbf{Edge cases}:
+\begin{itemize}[nosep]
+    \item Fully firm resource (like a gas plant with very high availability and fuel secure) might have ELCC \(\sim\) 1, so cost \(\sim\) 0 (it carries its own weight).
+    \item A wind or solar might have ELCC 0.1--0.5 range, thus reliability cost.
+    \item A battery providing 4-hour discharge might have ELCC up to its power rating for 4h peak etc, but then beyond that maybe not; but we can give it some credit (but that might already be in how we count it as a resource itself, if we had battery separate).
+\end{itemize}
+
+We can mention capacity markets and how this cost could correspond to capacity payments required or something. But that might be more in discussion.
+
+\subsubsection{Market Value Module}
+\textbf{Scope}: The Market Value Module adjusts the valuation to reflect the economic value of the energy in the market context, specifically accounting for when the energy is delivered relative to demand and supply conditions. Essentially, it captures the difference between a megawatt-hour from this resource and a generic megawatt-hour in terms of value to the grid (often measured by price). In pure system cost terms (with no prices), it reflects differences in what generation it displaces or if some generation is surplus.
+
+One straightforward way to think of it: if a resource produces mostly during low-demand periods, some of its energy might not actually avoid other generation (it could be curtailed or displace only very cheap generation). That effectively raises its cost per useful MWh, because not all of its MWh are equally useful. Conversely, a resource producing in high demand (peak) times displaces expensive generation and maybe avoids unserved energy, giving it a higher value per MWh -- effectively lowering its ``net cost'' per valued output.
+
+While some of this is already captured in Dispatch Module as differences in fuel cost displaced at different times, the Market Value Module can be seen as the complement that ensures the final metric corresponds to the value-adjusted cost.
+
+A formal way: Define
+\[
+v = \frac{\text{average price captured by resource}}{\text{average price}}.
+\]
+If \( v < 1 \), the resource underperforms the market average (like solar often does), meaning its energy is less valuable than average. If \( v > 1 \), it overperforms (e.g., a peaker might have \( v > 1 \) because it mainly sells at high prices).
+
+If we had a revenue metric, we would say resource revenue per MWh = \( v \cdot \text{average price} \). But we are doing cost analysis. However, in a cost-benefit sense, displacing 1 MWh of demand at an average time avoids cost equal to average cost; displacing at a less needed time avoids less.
+
+So one approach: Effective MWh delivered = \( v \cdot \text{actual MWh} \). Because if \( v=0.8 \), then every 1 MWh it produces is only equivalent to 0.8 ``average-value MWh'' in terms of what it offsets. So to deliver one average MWh worth of usefulness, it must generate \( 1/0.8 = 1.25 \) MWh (the rest maybe spilled or just lower value).
+
+Thus we can incorporate Market Value by adjusting the denominator of cost calculation: Instead of dividing total cost by total produced MWh (like LCOE does), divide by \( v \cdot \text{total MWh} \). That will increase the cost if \( v<1 \) (less effective MWh), or decrease if \( v>1 \).
+
+Alternatively, incorporate as a cost multiplier: multiply cost by \( 1/v \).
+
+It is basically how VALCOE can be seen: VALCOE = LCOE / \( v \) (roughly), since if \( v <1 \), VALCOE > LCOE.
+
+However, here we have already added some costs. Ideally:
+\[
+\text{ASCDE} = \frac{\text{All costs modules 1-5}}{v \cdot E}.
+\]
+
+We can also express that as:
+\[
+\text{ASCDE} = \frac{\text{All costs}}{E} \cdot \frac{1}{v} = (\text{cost per produced MWh}) \cdot \frac{1}{v}.
+\]
+
+So effectively, Market Value Module multiplies ASCDE by \( 1/v \). We can express this as an adder in \$/MWh too: If one wants an additive adjustment, one could do approximate if \( v \) difference small: but better as factor.
+
+We can do in log terms: but let us keep factor.
+
+Alternatively, one could incorporate a curtailment cost for when generation exceeds what is needed: For example, if 10\% of energy is curtailed (not used), then effectively only 90\% is delivered. That is similar to \( v \) if price drops to 0 at that portion. That curtailment means you spent money to build capacity that is not used 10\% of time, raising cost per delivered MWh by \(\sim\)11\%. That is a kind of value loss.
+
+So we can incorporate by:
+\begin{itemize}[nosep]
+    \item If a fraction \( f \) of energy is curtailed or of negligible value, then effective delivered = \( (1-f) \cdot E \). Then cost per delivered = LCOE / \( (1-f) \). So if \( f=0.1 \), cost goes up \(\sim\)11\%. That is a crude specific case of \( v \).
+\end{itemize}
+
+But \( v \) covers not just outright curtailment, but also general lower price.
+
+So we will incorporate as factor or in formula:
+\[
+C_{\text{market}} = \text{no. It is not a cost, but a factor}.
+\]
+
+We might still present it as e.g., ``apply a multiplier \( \alpha = 1/v \)'' or define a ``market value factor''.
+
+In an additive way, one sometimes does difference between LCOE and something: In some formula, VALCOE = LCOE + integration cost (which includes needed storage and backup) -- maybe they did not do the factor but integrated as cost adder.
+
+But we will do factor for clarity.
+
+So:
+If the rest of our cost analysis assumed average value, then we definitely need the factor.
+
+If our dispatch module already captured that some hours had cheaper displacement than others, we might have partially accounted. But to not double guess, we can assume dispatch considered average marginal cost or something, and do final adjust via \( v \).
+
+Thus, the Market Value Module essentially says: Adjusted delivered cost per MWh = raw cost per MWh / \( v \).
+
+We can solve for what to add or subtract: If \( v<1 \), it is like needing extra cost. You could express it as \( C_{\text{market}} = \left(\frac{1}{v}-1\right) \cdot \text{(cost per MWh excluding this)} \) to add. But that is complicated in formula.
+
+Probably easier: incorporate at the end as factor in ASCDE formula.
+
+So maybe in the final ASCDE formula section, we will mention dividing by capture factor or multiply by value factor.
+
+\textbf{Edge cases}:
+\begin{itemize}[nosep]
+    \item Baseload or fully dispatchable units might have \( v \approx 1 \) by definition (they can run when needed).
+    \item Solar often \( v<1 \) because midday surplus \(\rightarrow\) cost penalty.
+    \item Peakers or storage might have \( v>1 \) if they only output at high price times (so they get a credit).
+\end{itemize}
+
+However, one should be cautious: if a peaker runs only a few hours at high price, its LCOE is high to begin with, so it does not necessarily beat others after all. But the factor \( v \) just addresses price differences, not cost differences.
+
+Since ASCDE aims to measure cost, not profitability, we might justify the factor as representing that some of the produced energy is not actually needed to meet demand (like curtailment) or is substituting cheaper alternatives.
+
+Thus, academically: the Market Value Module ensures that the cost is normalized per useful MWh rather than per generated MWh. ``Useful'' could be weighted by system marginal cost.
+
+Alternatively, one could integrate this earlier: e.g., in dispatch module, do not credit the resource for displacing any generation during hours it produces where load is already met (curtailment). That would effectively reduce \( E \) (like treat \( E \) not delivered or treat cost differently).
+
+Anyway, we have enough clarity to proceed.
+
+\subsection{Integration of Modules into ASCDE}
+Having defined each module's contribution, we now integrate them to formulate the Adjusted System-Level Cost of Delivered Electricity (ASCDE).
+
+At a high level, ASCDE can be expressed as:
+\[
+\text{ASCDE} = \frac{\text{LCOE (base generator costs) + Dispatch Adj. + Fuel Supply Adj. + Storage Adj. + Transmission Adj. + Reliability Adj.}}{\text{Market Value Adjustment (if expressed as a fraction of energy)}}.
+\]
+
+However, to avoid confusion, we will build it stepwise: Start with the basic LCOE of the resource (which includes capital cost of the generator, fixed O\&M, variable O\&M, and fuel if any -- basically the cost if it were just feeding energy regardless of whether needed).
+
+Then:
+\begin{itemize}[nosep]
+    \item Add costs from each relevant module (some may be zero for certain resource types).
+    \item That gives a System-Adjusted Levelized Cost per Generated MWh.
+    \item Then apply the market value factor to adjust from per generated MWh to per effectively delivered MWh.
+\end{itemize}
+
+Mathematically:
+
+Let:
+\begin{itemize}[nosep]
+    \item \( C_{\text{LCOE}} \) = base LCOE of resource (in \$/MWh).
+    \item \( C_{\text{disp}} \) = dispatch module cost adder (which could be negative if dispatch saves cost beyond average).
+    \item \( C_{\text{fuel}} \) = fuel supply module cost adder.
+    \item \( C_{\text{stor}} \) = storage module cost adder.
+    \item \( C_{\text{trans}} \) = transmission module cost adder.
+    \item \( C_{\text{rely}} \) = reliability module cost adder.
+\end{itemize}
+
+These add linearly to form an adjusted cost per MWh generated:
+\[
+C_{\text{generated}} = C_{\text{LCOE}} + C_{\text{disp}} + C_{\text{fuel}} + C_{\text{stor}} + C_{\text{trans}} + C_{\text{rely}}. \tag{2}
+\]
+
+Now incorporate market value: Let \( v \) = value factor (fraction of average value). Then:
+\[
+\text{ASCDE} = \frac{C_{\text{generated}}}{v}. \tag{3}
+\]
+
+Alternatively, we might directly incorporate \( v \) into denominators: If \( E \) = energy produced, and effectively valued energy = \( v \cdot E \), and cost = (all costs including base generator cost), then ASCDE = cost / (\( v \cdot E \)) = (cost/\( E \))(\( 1/v \)). cost/\( E \) is basically eq (2).
+
+Equation (3) is our final ASCDE formula.
+
+We can also expand (3) using (2):
+\[
+\text{ASCDE} = \frac{C_{\text{LCOE}} + C_{\text{disp}} + C_{\text{fuel}} + C_{\text{stor}} + C_{\text{trans}} + C_{\text{rely}}}{v}.
+\]
+
+We should be cautious to explain each term:
+\begin{itemize}[nosep]
+    \item \( C_{\text{LCOE}} \) already is \(\frac{\text{NPV}(\text{project cost})}{\text{NPV}(E)}\) ignoring integration.
+    \item The adders like \( C_{\text{trans}} \) were computed similarly per produced MWh, presumably.
+    \item Dividing by \( v \) means if \( v<1 \), that whole numerator is divided by a number less than 1, making ASCDE larger than the sum of the raw cost components -- reflecting the fact that some of those produced MWh in denominator did not count fully.
+\end{itemize}
+
+One might wonder: do we double count any fuel savings? Actually, \( C_{\text{LCOE}} \) included the resource's own fuel cost if any, not the system's fuel savings. Fuel savings from displacing other plants is considered in dispatch module.
+
+If we gave a negative \( C_{\text{disp}} \) for fuel displacement, then dividing by \( v \) which also partly accounts that maybe some fuel displacement is lower than average, we might double penalize if not careful. But since we likely treat \( C_{\text{disp}} \) as excluding the average displacement (taking that average as baseline which was counted implicitly in LCOE maybe?), we need consistency. Let us clarify:
+Perhaps better:
+\begin{itemize}[nosep]
+    \item \textbf{Approach 1: (Fully explicit)} -- Do not include any benefit in \( C_{\text{disp}} \), only extra costs, and handle the benefit entirely by \( v \) factor.
+    \item \textbf{Approach 2: (Half explicit)} -- Include the average benefit (displacing average cost generation) as negative \( C_{\text{disp}} \) fully, then \( v \) only accounts for difference from average.
+\end{itemize}
+
+We might inadvertently lean on approach 2 in discussion. Actually, in building (2), we did not explicitly subtract a fuel saving. If we treat the resource's own fuel cost in LCOE (for thermal) but not the displacement of others, we might have left out the benefit. That is a problem: then cost/\( E \) would be too high if we did not credit for fuel saved. So maybe \( C_{\text{disp}} \) should indeed include a negative term for displaced fuel. If we did, and if we assumed it displaces average fuel, then the negative offset exactly average, leaving only differential with \( v \).
+
+Tricky, but let us make a decision: We will say \( C_{\text{disp}} \) can be negative (account for fuel saved on average). Then \( v \) will adjust if it is not average.
+
+Thus, interpret:
+\begin{itemize}[nosep]
+    \item \( C_{\text{disp}} \) includes the difference between actual operating cost change and average scenario.
+\end{itemize}
+
+But to simplify explanation, maybe: We could claim that for sake of formula we incorporate all known integration costs (like reserve, etc.) as positive in \( C_{\text{disp}}, C_{\text{stor}} \), and incorporate displacement via \( v \).
+
+But we risk undervaluing dispatch benefit.
+
+Alternatively, consider that the baseline we want is that ASCDE for a perfect resource equals its LCOE.
+
+Check: perfect resource (fully flexible, \( e=1 \), no extra trans, etc., and always produces when needed).
+\begin{itemize}[nosep]
+    \item \( C_{\text{disp}}=0 \) (no extra integration cost; but it does displace generation -- but if it is perfect, \( v=1 \) presumably, as we assume average times).
+\end{itemize}
+
+Actually, wait, if it always produces when needed, then either it is base or dispatchable, anyway likely we would consider \( v=1 \).
+\begin{itemize}[nosep]
+    \item \( C_{\text{fuel}}=0 \) (assuming fuel supply trivial or built in).
+    \item \( C_{\text{stor}}=0 \), \( C_{\text{trans}}=0 \), \( C_{\text{rely}}=0 \).
+\end{itemize}
+
+So numerator = LCOE, \( v=1 \), ASCDE = LCOE. Good.
+
+Now, a dispatchable gas plant: It runs when needed, so \( v \) might slightly \( >1 \) if mostly run at peak, but if base loaded then \( v \approx 1 \). If it has fuel supply cost maybe small if pipeline needed, reliability cost minimal since \( e \) nearly 1, trans maybe some but often built near load or existing network.
+
+So ASCDE \(\approx\) LCOE plus small adders.
+
+A solar farm: LCOE, plus reliability adder (lack of capacity), plus maybe storage adder (if we include some battery to shift), plus transmission if remote, dispatch cost possibly for reserves, then \( v \) likely \( <1 \) (maybe 0.8 or so currently).
+
+So it will significantly exceed LCOE.
+
+We can illustrate these qualitatively in results/discussion.
+
+\subsection{Mathematical Derivation and Proofs of Key Properties}
+We will now derive the ASCDE formula more formally from an optimization standpoint and prove a few properties:
+
+\textbf{Derivation}:
+Consider a system with demand \( D(t) \) over a year (0 to \( T \) hours). Let us introduce a candidate resource of type \( i \) with capacity \( P \) (MW) and generation profile \( p(t) \) normalized (where \( 0 \leq p(t) \leq 1 \) is its output fraction of capacity at time \( t \) if fully available). If fully installed, it produces \( P \cdot p(t) \) at time \( t \). We can choose \( P \) or treat \( P=1 \) for per-unit analysis.
+
+The system cost includes:
+\begin{itemize}[nosep]
+    \item Investment cost for resource \( i \): \( P \cdot K_i \) (annualized), where \( K_i \) = levelized cost per MW (this, divided by energy, would yield LCOE part).
+    \item Variable cost for resource \( i \): \( \int c_i \cdot P \cdot p(t) \, dt \) (e.g., fuel, O\&M).
+    \item Investment and operating costs for other resources (some function of how resource \( i \) affects their dispatch).
+    \item We also require reliability: let us impose at every moment an adequate supply:
+    \[
+    P \cdot p(t) + \text{Gen}_{\text{other}}(t) + \text{Discharge}(t) - \text{Charge}(t) \geq D(t),
+    \]
+    plus reserve etc, but skip reserves in this formulation for simplicity, or we include them as a factor in needed \( \text{Gen}_{\text{other}} \).
+\end{itemize}
+
+To derive marginal effect of \( P \): Write Lagrangian or consider partial derivative of total cost w.r.t \( P \). That derivative divided by additional energy served would be the ASCDE.
+
+However, doing a full KKT derivation is complex. Instead, we articulate logic:
+\begin{itemize}[nosep]
+    \item The direct cost increase from adding resource = \( K_i \cdot P + c_i \cdot \int p(t) \, dt \cdot P \).
+    \item But it displaces other generation costs: at any time \( t \), it reduces required \( \text{Gen}_{\text{other}} \) by \( P \cdot p(t) \).
+    \item If at time \( t \), the marginal cost of other gen is \( \lambda(t) \) (the dual of the energy balance constraint, akin to price), then the savings = \( \int \lambda(t) \cdot P \cdot p(t) \, dt \).
+    \item If resource \( i \) has ELCC \( e \), it provides \( e \cdot P \) capacity. That could avoid building \( e \cdot P \) of peaker. If cost of capacity is \( C_{\text{cap}} \) per MW, savings = \( e \cdot P \cdot C_{\text{cap}} \).
+    \item If resource \( i \) requires new transmission of cost \( T \) per MW, additional cost = \( P \cdot T \).
+    \item If it causes increased reserve requirement or curtailment: e.g., if at some times it produces more than needed (\( \lambda(t) \) can be seen as system marginal value of energy, then one can define \( v = \frac{\int \lambda(t) p(t) \, dt}{\bar{\lambda} \int p(t) \, dt} \), where \( \bar{\lambda} \) is the time average price weighted by load or generation. That \( v \) is essentially our value factor (the ratio of actual weighted value to average).
+\end{itemize}
+
+The net change in total cost due to adding resource \( P \) is:
+\[
+\Delta C = P \cdot K_i + P \cdot \int c_i p \, dt + P \cdot T + \text{maybe fuel security cost per MW} - P \cdot \int \lambda p \, dt - \text{(capacity savings)} + \text{(reserve cost increase)}.
+\]
+
+Divide \( \Delta C \) by \( P \cdot \int p \, dt \) (which is energy produced by \( P \) MW in a year, i.e. \( P \cdot \text{CF} \cdot 8760 \)) to get cost per MWh.
+
+Simplify:
+\[
+\frac{\Delta C}{P \int p \, dt} = \frac{K_i + \int c_i p \, dt / \int p \, dt + T + \ldots - \int \lambda p \, dt / \int p \, dt - e \cdot C_{\text{cap}} + \ldots}{\int p \, dt}.
+\]
+
+Better to do per MWh:
+\begin{itemize}[nosep]
+    \item LCOE part: \( \frac{K_i + \int c_i p \, dt}{\int p \, dt} \) is LCOE (capex plus its own variable cost over energy).
+    \item Transmission: \( T \) divided by \( (P \cdot \text{CF} \cdot 8760) \) is trans per MWh.
+    \item Fuel security: similarly.
+    \item Capacity savings: subtract \( e \cdot C_{\text{cap}} / (\text{MWh/year per MW}) \).
+    \item \( \int \lambda p \, dt / (\int p \, dt) \) is the average value (in \$/MWh) of that resource's energy.
+\end{itemize}
+
+If we had no integration issues beyond capacity, then at optimum, \( \lambda(t) \) likely equals marginal cost of other gen when not curtailed, and equals 0 when curtailed or value of lost energy if short, etc.
+
+Anyway, we want to see that:
+\[
+\text{ASCDE} = \frac{\text{cost}}{\text{energy}} = \text{LCOE} + \text{trans add} + \text{fuel security add} + \ldots + \frac{- \text{value of energy displaced} + \text{some integration costs}}{\text{energy}}.
+\]
+
+Set \( \bar{\lambda}_{\text{res}} = \frac{\int \lambda p \, dt}{\int p \, dt} \) (the resource's weighted price), and \( \bar{\lambda}_{\text{avg}} = \text{average price} \). Then \( v = \bar{\lambda}_{\text{res}} / \bar{\lambda}_{\text{avg}} \).
+
+Now, \( \int \lambda p \, dt = v \cdot \bar{\lambda}_{\text{avg}} \cdot \int p \, dt \). If the system is at equilibrium, \( \bar{\lambda}_{\text{avg}} \) should equal the average cost of supply (including capacity costs allocated), otherwise someone losing money or overpriced.
+
+But one can think \( \bar{\lambda}_{\text{avg}} \sim \text{average generation cost} \), and capacity cost appears as scarcity prices occasionally making up missing money such that long-run average price covers fixed costs too. But to not go too far, let us assume at long-run equilibrium, the average price weighted by load equals average total cost (including capacity).
+
+Then subtracting \( \int \lambda p \, dt \) effectively subtracts \( v \cdot (\text{average cost}) \cdot \text{energy} \). If average cost = \( \text{LCOE}_{\text{sys}} \) (like system average LCOE including capacity), then it is like subtracting that times \( v \). After subtracting, dividing by energy: We get LCOE\(_i\) + other adders - \( v \cdot (\text{average system cost}) \).
+
+We want that to equal our formula: sum of specific adders then /\( v \) presumably.
+
+Actually, possibly easier: define:
+\[
+C_{\text{generated}} = \text{LCOE}_i + C_{\text{trans}} + C_{\text{fuel}} + C_{\text{stor}} + C_{\text{disp,int}} + C_{\text{rely}},
+\]
+where \( C_{\text{disp,int}} \) is integration cost ignoring fuel displacement.
+
+Then subtract fuel displacement benefit: that benefit per MWh (if average) = average generation cost = we might call it \( B \). If we subtracted \( B \), then to break even, we must multiply by \( 1/v \) to account that benefit was not at full average for all MWh (some MWh had less benefit).
+
+So
+\[
+\text{ASCDE} = (C_{\text{generated}} - B)/v + \text{maybe something}.
+\]
+
+But if \( B = \text{average cost} \), and system average cost presumably includes capacity cost etc maybe not straightforward.
+
+Given complexity, we might skip the rigorous proof and rather show:
+
+\textbf{Property 1}: If a resource is fully firm, flexible, and produces at uniform value, then ASCDE equals its LCOE. (We can demonstrate by plugging \( e=1 \), \( v=1 \), no extras).
+
+\textbf{Property 2}: If a resource has no integration needs except that it is available only X\% of time randomly (like a hypothetical no-cost free fuel but intermittent), then ASCDE effectively reflects the need for backup capacity: if \( e \) is low, reliability cost term is main contributor raising ASCDE above LCOE (which was just capital over generation).
+
+\textbf{Property 3}: As resource penetration increases (\( e \) or \( v \) drop), the ASCDE tends to rise, approaching something akin to LFSCOE (if needed can articulate that limit).
+
+\textbf{Property 4}: The framework is additive: each module's impact is separable, so analysts can see which factors contribute most to cost.
+
+We can also verify dimension consistency: each \( C_x \) is in \$/MWh, \( v \) is dimensionless.
+
+\textbf{No double counting}:
+Each cost is allocated to one module: e.g., having storage might improve reliability (increase \( e \)) thereby reducing reliability adder, but we do not count the same capacity twice (we would either include the cost of storage in storage module which also improves \( e \) implicitly if we consider combined plant+storage as one product with higher \( e \)).
+
+We might assume when calculating \( e \) for reliability module, we consider the resource plus any dedicated storage we accounted in storage module. But that is complicated. Possibly we consider them separately and risk double count or undervalue capacity of storage.
+
+Alternatively, perhaps the storage in storage module is mainly for daily shifting, might not guarantee multi-day reliability, so \( e \) maybe not improved by short storage? Not exactly, short storage can improve ELCC a lot for solar actually. So yes, if we already included a 4h battery in storage, the combined (solar+batt) has a higher ELCC than solar alone. If we still applied reliability adder as if no battery, we would double count capacity support.
+
+Thus, an integrated approach would optimize each resource's combination of storage to maximize value vs cost. UEVF might require iterative approach: if one invests in storage, reliability need goes down.
+
+One way around: treat storage module as one way to meet reliability as well (maybe they overlap). But since our modules are separate for clarity, perhaps best to say: for intermittent resources, one could either attribute capacity credit partly to storage if storage is considered part of the project's integration. In such case, one should use an ELCC reflecting the presence of that storage.
+
+So we should mention: if our storage module has provided \( X \) MW for \( Y \) hours of storage, then when computing ELCC for reliability module, consider the combined system. That effectively means reliability module will charge less.
+
+So to not overcomplicate, we can either:
+\begin{itemize}[nosep]
+    \item Keep them separate but caution user to not double count (like if you think in terms of formula, you may plug \( e \) that accounts for storage).
+    \item Or assume the storage in module was more about intra-day and not enough to significantly boost capacity credit (like it covers a 4hr peak, which actually does boost it though! Perhaps we think reliability is about more than 4hr? But typically 4h is the standard for resource adequacy these days).
+\end{itemize}
+
+This is a nuance. Probably fine to just state that integrated analysis would ensure consistency.
+
+We can note in discussion that one might coordinate modules in optimization for minimal ASCDE, but we for formula separated them for conceptual clarity.
+
+Anyway, for the formal establishment, maybe we present the final formula and such properties in text rather than a heavy proof.
+
+\subsection{Theoretical Framework and Mathematical Derivations}
+Now we will present the theoretical assembly of the modules into the UEVF and derive the ASCDE metric, alongside proofs or demonstrations of certain limiting cases.
+
+\subsubsection{Formulation of ASCDE}
+Bringing together the results of the modules, we can formally express the Adjusted System-Level Cost of Delivered Electricity as:
+\[
+\text{ASCDE} = \frac{C_{\text{gen}} + C_{\text{dispatch}} + C_{\text{fuel-supply}} + C_{\text{storage}} + C_{\text{transmission}} + C_{\text{reliability}}}{v_{\text{value}}}, \tag{4}
+\]
+where each term represents a cost per unit energy (in consistent units like \$/MWh) and \( v_{\text{value}} \) is the dimensionless value factor (a number typically between 0 and 1+):
+\begin{itemize}[nosep]
+    \item \( C_{\text{gen}} \) -- the base generation cost per MWh, which in absence of integration issues would be the LCOE of the resource. This covers capital recovery and O\&M, and for thermal plants, includes fuel cost. (Essentially \( C_{\text{gen}} = \text{LCOE} \).)
+    \item \( C_{\text{dispatch}} \) -- the dispatch module cost per MWh, representing net adjustments in operating cost due to the resource's intermittency or inflexibility. Positive values of \( C_{\text{dispatch}} \) denote extra costs (e.g., reserve procurement, cycling wear-and-tear) incurred per MWh of the resource, while negative values indicate a reduction in system operating cost beyond the average (i.e., the resource provides operating cost savings per MWh higher than a flat output would, perhaps by preferentially displacing expensive generation). In practice, one might calculate \( C_{\text{dispatch}} \) by simulating system dispatch with and without the resource and dividing the change in total production cost by the resource's MWh produced. We include in \( C_{\text{dispatch}} \) the integration-related operating costs but not the bulk fuel displacement benefit -- the latter is accounted for via the value factor \( v_{\text{value}} \) to avoid double counting.
+    \item \( C_{\text{fuel-supply}} \) -- the fuel supply assurance cost per MWh, capturing costs like firm fuel transport contracts, on-site fuel storage, or dual-fuel capability needed for fuel security. For non-fuel resources, \( C_{\text{fuel-supply}} = 0 \). For a gas plant that requires a firm pipeline contract or an oil backup, this term converts the annual or fixed cost of that into \$/MWh. For example, if a gas plant pays \$X per kW-year for firm fuel transportation, and its capacity factor is CF, then \( C_{\text{fuel-supply}} = \frac{X}{\text{CF} \cdot 8760} \) \$/MWh.
+    \item \( C_{\text{storage}} \) -- the storage integration cost per MWh, representing the cost of any dedicated storage (or demand response flexibility) that must be added to effectively utilize the resource's generation. If the resource is dispatchable or already matches demand well, \( C_{\text{storage}}=0 \). If not, this term covers, say, adding a battery or other storage. For instance, if each MW of solar needs 0.25 MW of 4-hour battery to shift energy into evening, and that battery has a levelized cost of \$Y per kW-year plus \$Z per kWh-year, one can compute the cost per MWh of solar output and put it in \( C_{\text{storage}} \). This effectively internalizes the cost of mitigating intra-day supply-demand mismatch.
+    \item \( C_{\text{transmission}} \) -- the transmission cost per MWh associated with the resource. This includes transmission lines, upgrades, losses, and potentially distribution system impacts. For a project requiring new transmission capacity, \( C_{\text{transmission}} \) might be calculated by taking the total capital cost of the necessary line (annualized) and dividing by the annual MWh delivered. Conversely, if a resource avoids transmission investment (like distributed generation deferring an upgrade), this term could be negative (a credit per MWh for the T\&D savings).
+    \item \( C_{\text{reliability}} \) -- the reliability (capacity) cost per MWh, accounting for additional capacity needed due to the resource's limited firm capacity. Using the earlier derivation, \( C_{\text{reliability}} = \frac{(1 - e)}{\text{CF} \cdot 8760} C_{\text{cap}} \), where \( e \) is the ELCC (capacity credit) of the resource, CF its capacity factor, and \( C_{\text{cap}} \) the annualized cost of 1 kW of firm capacity. This term effectively spreads the cost of a ``shadow capacity'' that stands behind the resource over the resource's output. If \( e=1 \) (fully firm), \( C_{\text{reliability}}=0 \). If \( e=0 \) (no capacity value), \( C_{\text{reliability}} \) equals \( \frac{C_{\text{cap}}}{\text{CF} \cdot 8760} \), which can be large for low-CF resources. For example, if \( C_{\text{cap}}=\$100/\text{kW-yr} \) and CF=0.25, then \( C_{\text{reliability}} \approx \$100/(0.25 \cdot 8760) \approx \$4.57/\text{MWh} \) -- a non-trivial adder. This aligns with Grimm et al.'s observation that covering load with renewables requires substantial extra capacity, raising average costs \cite{grimm2024}.
+\end{itemize}
+
+Finally, the denominator \( v_{\text{value}} \) is the value factor:
+\[
+v_{\text{value}} = \frac{\text{Volume-weighted value of resource's energy}}{\text{Average value of energy}}.
+\]
+
+In practice, one can compute \( v_{\text{value}} \) as the ratio of the resource's capture price to the average price \cite{iea2020, emblemsvag2025, hirth2015}, or equivalently the ratio of avoided cost of generation it provides to what an always-available 1 MW would provide. If a resource's output is perfectly correlated with high demand and prices, \( v_{\text{value}} > 1 \). If it is anticorrelated (e.g., solar in a region with peak at sunset), \( v_{\text{value}} < 1 \). The term \( 1/v_{\text{value}} \) thus scales the cost to a per effective MWh basis. If \( v_{\text{value}} \) is 0.8, that means 1 MWh from this resource only replaces 0.8 MWh of ``average'' generation value, so the cost per equivalent full-value MWh is \( 1/0.8 = 1.25 \) times higher. This is how ASCDE incorporates the temporal value profile just as VALCOE does \cite{emblemsvag2025}, but within our framework it comes after adding all cost adjustments.
+
+To provide intuition, we can rewrite (4) in a perhaps clearer way:
+\[
+\text{ASCDE} = \frac{\text{Total System Cost of utilizing resource i (including all integration costs)}}{\text{Total Effective MWh delivered by resource i}}.
+\]
+
+This mirrors the definition of LCOE (total cost / total MWh) but expands both numerator and denominator:
+\begin{itemize}[nosep]
+    \item The numerator ``total system cost of utilizing resource i'' includes the plant's own cost plus any extra system costs (or minus system savings) required to integrate it.
+    \item The denominator ``effective MWh'' is basically MWh weighted by value (you could think of it as MWh delivered at 100\% availability equivalence).
+\end{itemize}
+
+If \( v_{\text{value}} = 1 \) (the resource's output is just as valuable as an average MWh, no more no less), then the denominator is just its actual MWh. In that case, we could equivalently subtract the average benefit in the numerator; indeed some formulations set up ASCDE as LCOE plus explicit integration cost minus average energy value credit. Our equation (4) chooses to incorporate the energy value credit via the denominator, which is algebraically equivalent in outcome. This approach ensures that the final number is directly interpretable as a cost per delivered MWh.
+
+\subsubsection{Special Cases and Consistency Checks}
+We now examine a few special cases of the ASCDE formula to demonstrate its consistency with expectations and existing metrics.
+
+\textbf{Case 1: An ideal dispatchable plant (e.g., a gas combined-cycle with full fuel supply and no need for new transmission).}
+Suppose we have a resource that:
+\begin{itemize}[nosep]
+    \item Can ramp and dispatch at will to follow load (no extra reserve needed beyond normal, and it displaces average generation when it runs).
+    \item Has a secure fuel supply (firm pipeline or onsite fuel) such that its availability is \(\sim\)100\% except forced outages, which we include in its ELCC.
+    \item Its ELCC is essentially \(\sim\)1 (it contributes full capacity to reliability because it can run at peak).
+    \item It is located near load or on existing grid, needing no significant transmission investment.
+    \item It runs at a decent capacity factor so it is mostly base or mid-merit.
+\end{itemize}
+
+For this resource:
+\begin{itemize}[nosep]
+    \item \( C_{\text{dispatch}} \approx 0 \) (it does not impose new costs; any operating benefits it provides are just the normal fuel savings which will be captured in \( v_{\text{value}} \)).
+    \item \( C_{\text{fuel-supply}} \approx 0 \) (if any fuel infrastructure cost is folded into its own LCOE or is negligible per MWh).
+    \item \( C_{\text{storage}} = 0 \) (no storage needed).
+    \item \( C_{\text{transmission}} = 0 \) (no new lines).
+    \item \( C_{\text{reliability}} = 0 \) (ELCC \(\sim\)1, it does not need backup).
+    \item \( v_{\text{value}} \approx 1 \) (because it can generate when it is most needed/valuable, it will likely capture roughly average value, or it can even be scheduled to optimize value).
+\end{itemize}
+
+Plugging these in:
+\[
+\text{ASCDE} = \frac{C_{\text{gen}} + 0 + 0 + 0 + 0 + 0}{1} = C_{\text{gen}}.
+\]
+But \( C_{\text{gen}} \) is just the plant's own LCOE by definition. Thus ASCDE = LCOE. This is an important consistency check: for a traditional dispatchable plant in the old paradigm, UEVF yields the same result as LCOE \cite{lazard2023, olanrewaju2025}. We have not ``penalized'' the plant because it imposes no extra costs; nor have we given it a credit beyond its own cost (aside from presumably being scheduled in an economically optimal way which we consider normal). This shows UEVF is an extension of LCOE, not a replacement that always inflates costs -- it only adds costs where relevant.
+
+\textbf{Case 2: A variable renewable (e.g., wind) with no storage, requiring backup capacity, in moderate penetration.}
+Consider a wind farm:
+\begin{itemize}[nosep]
+    \item Its LCOE (base cost) might be, say, \$40/MWh.
+    \item It has some ELCC, maybe around 0.15--0.30 of its capacity (wind often has relatively low capacity credit if peaks do not align with wind availability).
+    \item No dedicated storage on site, and we will not assign any in this case (we will handle storage in another case).
+    \item It does require new transmission since the best wind site is far from load: suppose an additional \$10/MWh for transmission \cite{hirth2015}.
+    \item Being variable, it causes some integration cost: say additional reserves costing \$2/MWh (for frequency regulation, etc. -- a number in line with some studies that find a few \$/MWh integration cost at moderate penetration).
+    \item Fuel supply cost is zero (wind's ``fuel'' is free atmospheric kinetic energy).
+    \item Now, value factor: if wind penetration is moderate, wind might still have a value factor close to 1 or maybe 0.9 (somewhat lower value if wind tends to blow more at night or in certain seasons that are lower demand). We will say \( v_{\text{value}} = 0.9 \) for example.
+\end{itemize}
+
+Now compute terms:
+\begin{itemize}[nosep]
+    \item \( C_{\text{gen}} = \$40/\text{MWh} \).
+    \item \( C_{\text{dispatch}} \approx +\$2/\text{MWh} \) (reserve/operational).
+    \item \( C_{\text{fuel-supply}} = \$0 \).
+    \item \( C_{\text{storage}} = \$0 \) (none assumed).
+    \item \( C_{\text{transmission}} = +\$10/\text{MWh} \).
+    \item \( C_{\text{reliability}} = \frac{(1-e) C_{\text{cap}}}{\text{CF} \cdot 8760} \). Let us plug numbers: assume wind CF=0.35, ELCC \( e=0.2 \), and \( C_{\text{cap}}=\$100/\text{kW-yr} \). Then per kW of wind, missing capacity = 0.8 kW, costing \$80/yr. Annual MWh per kW \(\sim 0.35 \cdot 8760 = 3066 \) MWh. So \( C_{\text{reliability}} = 80/3066 \approx \$26/\text{MWh} \). This is significant -- it reflects that we would need almost 0.8 kW of peaker per kW of wind installed.
+    \item \( v_{\text{value}} = 0.9 \).
+\end{itemize}
+
+Summing numerator: \$40 + \$2 + \$0 + \$0 + \$10 + \$26 = \$78/MWh. Dividing by 0.9: \$86.7/MWh.
+
+So ASCDE \(\approx\) \$87/MWh in this hypothetical. The wind's LCOE was \$40, but its ASCDE is more than double that -- illustrating how the extra costs and value penalty stack up. This aligns with the literature stating that system cost of integrating a lot of wind can be several times the wind LCOE \cite{lazard2023}. Notably, the largest contributor here was the capacity backup cost. If the system had surplus capacity or if wind's ELCC were higher (say wind coincident with peak), that part would reduce.
+
+If one compared this to a gas plant's ASCDE (which might have been, say, \$70/MWh if gas LCOE is 70), one sees that despite wind's much lower LCOE, its ASCDE could be higher in this scenario due to integration costs and value. This underscores why using LCOE alone can be misleading in high-renewable contexts \cite{lazard2023}. UEVF properly surfaces these differences.
+
+\textbf{Case 3: Solar PV with battery storage (partial), high penetration scenario.}
+Now consider solar, which often has a value disadvantage (peak late afternoon/early evening when solar output wanes). Suppose:
+\begin{itemize}[nosep]
+    \item Solar LCOE = \$30/MWh (solar is cheap per se).
+    \item It is so widespread that at noon there is surplus, so value factor \( v_{\text{value}} = 0.7 \) (meaning on average a solar MWh is worth only 70\% of an average MWh, due to midday low prices \cite{hirth2013}).
+    \item ELCC of standalone solar might be low (e.g. 0 at peak if peak is after sunset). But assume some battery is added:
+    \item Storage: we add a 4-hour battery of capacity equal to 0.5 MW per 1 MW of solar (so it can shift some energy to evening). This is a substantial addition, but some studies suggest near-50\% solar penetration, you need a lot of storage. The cost of battery, say, levelized, is \$150/kW-yr (for 4-hr that might be rough \$200/kWh-yr). 0.5 kW battery costs \$75/yr. The solar produces maybe CF=0.25 (2190 hours equiv).
+\end{itemize}
+
+How to allocate: That battery stores part of solar output. We can convert \$75/kW-yr to per MWh: per kW solar, we have 0.5 kW battery costing \$75. That solar kW yields \(\sim\)2190 kWh/year, but not all need storage; battery might handle, say, shifting 20\% of energy. We could simply spread cost over all MWh: \$75/2190 \(\approx\) \$34/MWh. Actually that is high -- battery is expensive. But let us run with it. Alternatively, one might not pair so much storage, but the scenario implied ``no empirical simulation''.
+\begin{itemize}[nosep]
+    \item Let us do smaller: 0.25 kW 4h battery (like many proposals, 25\% of capacity), costing maybe \$40/kW-yr, which is \$40/2190 \(\approx\) \$18/MWh. We will use that.
+\end{itemize}
+
+That battery likely raises solar's ELCC significantly (because it can push late afternoon energy into evening peak). So perhaps combined ELCC \( e=0.5 \) now (just guessing; could be more if 25\% battery).
+\begin{itemize}[nosep]
+    \item Transmission: assume solar is built distributed or local, minimal new transmission (maybe \$5/MWh if some upgrades).
+    \item Reserve/cycling dispatch cost: solar variability is slower than wind (predictable daytime shape, but clouds can cause ramps). Suppose \$1/MWh in extra dispatch cost for reserves.
+    \item Fuel supply: n/a.
+\end{itemize}
+
+Now:
+\begin{itemize}[nosep]
+    \item \( C_{\text{gen}} = \$30 \).
+    \item \( C_{\text{dispatch}} = \$1 \).
+    \item \( C_{\text{fuel-supply}} = \$0 \).
+    \item \( C_{\text{storage}} = \$18 \).
+    \item \( C_{\text{transmission}} = \$5 \).
+    \item \( C_{\text{reliability}} = \frac{(1-0.5) \cdot 100}{0.25 \cdot 8760} = \frac{50}{2190} = \$22.8 \). (If \( e=0.5 \) with battery; if no battery \( e \) would have been \(\sim\)0, cost \(\sim\)\$45). So storage roughly halved the capacity cost.
+    \item \( v_{\text{value}} = 0.7 \).
+\end{itemize}
+
+Numerator sum: \$30 + \$1 + \$0 + \$18 + \$5 + \$22.8 = \$76.8/MWh. Divide by 0.7: \$109.7/MWh.
+
+So ASCDE \(\sim\)\$110. If no battery (storage and maybe \( e=0.1 \), \( v=0.5 \) if oversupply heavy), it could have been even higher, say \$30 + \ldots + large capacity \(\rightarrow\) maybe \$150--200, with battery it is a bit lower. So the battery helped reduce reliability and improved value (though we did not explicitly raise \( v \), we indirectly did by shifting some energy, but \( v \) still 0.7 maybe if penetration is that high).
+
+This outcome again demonstrates: even cheap solar (LCOE \$30) at high penetration can have an effective cost much higher after accounting for needed storage and backup and its lower value. UEVF quantifies each part:
+\begin{itemize}[nosep]
+    \item The \$18 from storage is essentially the cost of firming up some energy to later.
+    \item The \$23 from reliability is because still not fully firm.
+    \item The \$1 from dispatch is minor short-term integration.
+    \item The \$5 transmission is modest.
+    \item The big whopper is the \( 1/0.7 \) value factor, adding \(\sim\)43\% to cost. Without the value adjustment, cost would have been \$77; with it, \$110.
+\end{itemize}
+
+This is consistent with real high-penetration modeling that finds diminishing economic returns to solar as penetration increases -- you need a lot of storage or overbuild and curtail, which raises cost per useful kWh \cite{}.
+
+\textbf{Case 4: Peaker plant (low capacity factor but high value output).}
+A combustion turbine might have LCOE (if run at only a few \% CF) extremely high (because capital is spread thin). But it only runs at times of high demand, effectively providing reliability. Let us consider:
+\begin{itemize}[nosep]
+    \item CT LCOE if run 5\% CF might be, say, \$200/MWh (most of that being capital cost since fuel usage is low).
+    \item However, it has ELCC \(\sim\)1 (since it is built for peak).
+    \item It requires perhaps fuel assurance (dual-fuel or firm gas) which might add a bit to cost, say \$2/MWh.
+    \item No storage needed; it is effectively the backup.
+    \item If near load, little new transmission needed.
+    \item No integration cost; it is the one providing reserves rather than needing them.
+    \item Value factor: it runs at peak, capturing prices maybe 2x average. So \( v_{\text{value}} \) might be 1.5 or even more if it only runs at scarcity pricing times. But over its output, maybe let us say 1.5.
+\end{itemize}
+
+Now modules:
+\begin{itemize}[nosep]
+    \item \( C_{\text{gen}} \approx \$200 \).
+    \item \( C_{\text{dispatch}} = 0 \) (maybe even negative if it provides reserves, but that benefit probably reflected in it not running except when needed -- we will call it 0 for simplicity).
+    \item \( C_{\text{fuel-supply}} \approx \$2 \).
+    \item \( C_{\text{storage}} = 0 \).
+    \item \( C_{\text{transmission}} = 0 \).
+    \item \( C_{\text{reliability}} = 0 \) (ELCC 1, though arguably if it has 5\% forced outage rate, \( e=0.95 \), tiny cost but skip).
+    \item \( v_{\text{value}} = 1.5 \).
+\end{itemize}
+
+\[
+\text{ASCDE} = (200+2)/1.5 = \$134.7/\text{MWh}.
+\]
+
+So the peaker's ASCDE (\(\sim\)\$135) is much lower than its standalone LCOE (\$200) because it produces exactly at high value moments (peak times). In a market, indeed, peakers rely on high prices at peak to justify themselves. The framework shows that in terms of system cost, because it only operates when needed, the cost per useful MWh is not as outrageous as the raw LCOE suggests. (Another way: it might sit idle most of year, but that idle time's cost is essentially a reliability insurance cost that we spread over all demand in some way; when focusing just on its output, you must account that those MWh displaced extremely expensive alternatives -- like blackouts or very costly demand response.)
+
+This aligns with why capacity mechanisms exist: a peaker has high LCOE but still worth having. In UEVF, the high value factor moderated its ASCDE. If the peaker was needed purely for reliability and rarely ran, one could argue whether to even treat its output in \$/MWh terms, but ASCDE handles it by attributing a high value factor.
+
+\textbf{Summary of cases}: These examples illustrate that UEVF/ASCDE can represent a broad range of situations and yields results consistent with intuitive and studied outcomes:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Traditional plants:} ASCDE \(\sim\) LCOE \cite{lazard2023}.
+    \item \textbf{Variable renewables at moderate penetration:} ASCDE is moderately higher than LCOE due to additional backup and integration adjustments \cite{hirth2015}.
+    \item \textbf{High-penetration renewables:} ASCDE is significantly higher, approaching metrics such as LFSCOE or full system costs as observed in scenarios dominated by renewable energy \cite{hirth2015}.
+    \item \textbf{Peaking resources:} ASCDE is lower than their LCOE, reflecting their high-value output timing. This demonstrates cost-value symmetry, rewarding resources producing at high-value times and penalizing those with low-value timing.
+\end{itemize}
+
+\subsubsection{Considerations on Module Interdependencies}
+While we have presented modules as additive, in practice some interact. For example, adding storage (Storage Module) for a solar farm improves its capacity credit (Reliability Module) and may improve its value factor (Market Value Module) by shifting output to peak \cite{nerc2019}. Our framework can accommodate this, but one must be careful to evaluate them consistently. In a rigorous application, one would likely iterate: estimate how much storage yields the optimal reduction in total ASCDE and use the improved ELCC and value factor from that combination. The modular breakdown is nonetheless useful for transparency -- it lets us see, for instance, how much of the ASCDE is due to needing backup capacity vs. due to energy timing mismatch vs. due to new grid infrastructure. This is valuable for policy: e.g., if \( C_{\text{transmission}} \) is a big chunk for wind, policy might focus on planning transmission; if \( C_{\text{reliability}} \) is large for solar, policy might look at better capacity market integration or incentives for storage; if \( v_{\text{value}} \) is very low for a resource, it indicates saturation and suggests diversification or demand-side management to improve the usage of that resource's output.
+
+Another note: externalities (like carbon emissions) are not explicitly in UEVF (nor in LCOE, usually). One could extend UEVF with a module for environmental external costs or constraints, if desired, similar to how some analyses have ``social cost adders''. But in our scope, we treat those as separate policy issues -- UEVF is neutral in that it can evaluate a coal plant's ASCDE vs a wind farm's ASCDE purely on system cost. If carbon pricing exists, it would show up as part of fuel cost in LCOE or dispatch cost (cost of running coal higher due to carbon cost, thus raising LCOE and maybe dispatch integration cost if it affects scheduling). So UEVF can incorporate such market-based internalized costs inherently.
+
+\subsubsection{Theoretical Proof of Optimality Attribute}
+We assert that a resource with the lowest ASCDE is the most cost-effective option to serve the next increment of load (in a given scenario), under the assumptions embedded. This is analogous to saying that in a properly accounted system optimization, if one computes ASCDE for all options, the resource with smallest ASCDE would be chosen to supply additional demand.
+
+This is not a formal proof we will elaborate in full, but conceptually: The ASCDE we derived from a marginal cost viewpoint (the calculus thought experiment earlier) is effectively the levelized incremental cost of that resource. In an optimal plan, all selected resources at the margin should have equal incremental cost (system's equilibrium condition). If one had a resource with ASCDE below the current marginal cost of meeting load, adding it would reduce total cost (hence it should be added until equilibrium). If it is above, adding it would raise cost (so it would not be chosen). This property holds if our computations perfectly capture all marginal effects. Because we included capacity and energy and so on, ASCDE works like a comprehensive benefit-cost measure (benefit being displacing other generation valued at average cost).
+
+Thus, we expect that comparing ASCDE of different technologies gives a correct ordering for economic selection (provided the system context used for their evaluation is consistent). This could be proven by showing that if you have two resources A and B, and ASCDE\(_A\) < ASCDE\(_B\), then a blend including more of A and less of B has lower total cost (assuming linearity/convexity). Given our linear additive model, that generally holds except for interactions (non-linear effects at high penetration, but then one would recalc at new context).
+
+\section*{Policy and Planning Discussions}
+Having established the theoretical framework for the Unified Energy Valuation Framework (UEVF) and the Adjusted System-Level Cost of Delivered Electricity (ASCDE) metric, we now transition from theory to practice-oriented discussion. The robust analytical structure of UEVF provides a powerful tool for evaluating generation resources in a system context. In this section, we explore how UEVF can be applied in policy-making, resource planning, and market design within the U.S. power sector. We connect the theoretical results—such as the impacts of high \( C_{\text{reliability}} \) or low \( v_{\text{value}} \)—to practical implications, offering examples and discussing how these insights can shape decisions on capacity markets, renewable integration, and system reliability.
+
+\section{Discussion}
+With the Unified Energy Valuation Framework (UEVF) formalized, we now explore its implications and applications. This section bridges the theoretical development to real-world decision-making in the U.S. power sector, addressing how UEVF can inform policy, investment planning, and market design. We also reflect on the framework’s limitations and potential extensions.
+
+\subsection{Policy Applicability}
+% Informing resource investment and incentives
+\textbf{Informing Resource Investment and Incentives}: Policymakers often rely on metrics like Levelized Cost of Electricity (LCOE) to design incentives such as production tax credits or renewable portfolio standards. However, LCOE can be misleading as it omits integration costs. UEVF’s ASCDE metric offers a more holistic view, enabling more efficient policy designs. For instance, if wind power has a low LCOE but a high ASCDE due to significant integration costs (e.g., transmission or backup capacity), policies solely promoting wind could lead to unexpectedly high system costs. UEVF highlights the need for complementary investments, such as transmission infrastructure or storage, to mitigate these costs. ASCDE acts as a “red flag” metric: a large gap between a resource’s LCOE and ASCDE signals that supporting policies should address specific cost drivers, such as funding transmission upgrades or incentivizing storage to reduce \( C_{\text{reliability}} \). This integrated approach ensures renewable energy targets are paired with grid enhancements to keep effective delivered costs manageable \cite{joskow2011}.
+
+% Technology-neutral vs. targeted support
+\textbf{Technology-Neutral vs. Targeted Support}: By quantifying all cost components in monetary terms, UEVF enables fair comparisons across diverse technologies. For example, debates over baseload power (e.g., nuclear) versus renewables paired with storage can be resolved by comparing their ASCDEs. If nuclear’s ASCDE is lower due to its high reliability (\( e \approx 1 \)), it may justify policies to extend nuclear plant lifespans. Conversely, if a wind-solar-storage combination has a lower ASCDE, it supports investment in that pathway. Unlike LCOE, which overlooks nuclear’s reliability advantage or renewables’ integration costs, UEVF captures these factors, providing a clearer basis for decisions \cite{nrel2021_compmetrics}. This could guide choices on whether to prioritize long-duration storage research or support firm capacity resources, depending on which modules dominate ASCDE.
+
+% Carbon and environmental policy integration
+\textbf{Carbon and Environmental Policy Integration}: If carbon pricing is implemented, it increases the LCOE and dispatch costs of fossil resources, raising their ASCDE. Simultaneously, it enhances the value factor \( v_{\text{value}} \) of low-carbon resources by increasing the cost of displaced carbon-intensive generation. For example, a high carbon price could make coal more expensive, narrowing the price gap between high- and low-demand periods, thus improving wind or solar’s \( v_{\text{value}} \). UEVF can simulate these effects, quantifying the system cost impact of carbon policies and comparing ASCDEs across technologies under such policies. This provides a consistent framework to evaluate environmental policies in terms of their economic impact on the power system \cite{iea2018}.
+
+% Ensuring reliability in decarbonization
+\textbf{Ensuring Reliability in Decarbonization}: Maintaining reliability during the transition to renewables is a critical challenge. The Texas February 2021 blackout highlighted issues like fuel supply risks (frozen gas pipelines) and inadequate firm capacity, which UEVF could have flagged ex-ante through a high \( C_{\text{fuel-supply}} \) or \( C_{\text{reliability}} \). Policies like firm-fuel requirements or winter reliability insurance products can be modeled in UEVF as reductions in \( C_{\text{fuel-supply}} \), with their costs quantified per MWh. In capacity markets, UEVF’s Reliability Module aligns with Effective Load Carrying Capability (ELCC)-based accreditation, where resources like solar or wind receive capacity payments proportional to their ELCC, and \( C_{\text{reliability}} \) reflects the cost of procuring additional capacity to cover shortfalls. UEVF can test whether market designs ensure resources internalize these costs or if some are free-riding on system reliability, as seen in energy-only markets like ERCOT where insufficient scarcity pricing may under-procure capacity \cite{ercot2018}.
+
+\subsection{Planning Relevance}
+% Integrated resource planning
+\textbf{Integrated Resource Planning (IRP)}: In vertically integrated states, utilities use IRP to determine future resource mixes. UEVF enhances IRP by incorporating integration costs directly into ASCDE, reducing the need for separate simulations of storage or transmission needs. Planners can compute ASCDE for candidate resources under various scenarios (e.g., different renewable penetration levels) to identify cost-effective portfolios. Since ASCDE includes transmission and storage costs, it simplifies optimization models by embedding these constraints in the cost metric. However, as penetration increases, parameters like \( v_{\text{value}} \) and ELCC may change, requiring iterative calculations to reflect diminishing returns \cite{nrel2021_compmetrics}.
+
+% Transmission planning and generation coordination
+\textbf{Transmission Planning and Generation Coordination}: UEVF’s Transmission Module encourages co-optimization of generation and transmission. If a remote wind farm’s \( C_{\text{transmission}} \) is high, an IRP might limit its deployment or prioritize transmission upgrades to lower that cost. For example, the Midwest’s Multi-Value Projects (MVPs) reduced \( C_{\text{transmission}} \) for wind, lowering its ASCDE and justifying upfront grid investment. By explicitly including transmission costs, UEVF bridges the traditional divide between generation and transmission planning, promoting proactive grid enhancements \cite{idel2022}.
+
+% Reliability and resilience planning
+\textbf{Reliability and Resilience Planning}: UEVF’s Reliability Module directly supports capacity adequacy planning, but resilience against extreme events requires additional consideration. The Fuel Supply Module monetizes risks like gas pipeline failures by assuming mitigation costs (e.g., firm fuel contracts). Planners can use UEVF to evaluate diverse portfolios that hedge against such risks, even if some resources have slightly higher ASCDEs, to enhance resilience. Scenario analyses can quantify the cost of unmitigated risks, such as unserved energy during a gas supply disruption \cite{ercot2018}.
+
+% Distributed energy resources and non-wires alternatives
+\textbf{Distributed Energy Resources (DER) and Non-Wires Alternatives}: UEVF applies to DERs like rooftop solar, which may have a high LCOE but a negative \( C_{\text{transmission}} \) due to avoided grid upgrades. Paired with batteries, DERs could also have a high \( v_{\text{value}} \) if output aligns with peak demand. This enables fair comparisons between DERs and utility-scale solutions, supporting decisions on non-wires alternatives that defer costly infrastructure upgrades \cite{nrel2021_compmetrics}.
+
+\subsection{ISO/RTO Market Integration}
+% Capacity markets and accreditation
+\textbf{Capacity Markets and Accreditation}: UEVF’s Reliability Module mirrors capacity market mechanisms like those in PJM or NYISO, where resources are accredited based on ELCC. A resource’s \( C_{\text{reliability}} \) reflects the cost of procuring backup capacity, aligning with capacity payments in efficient markets. In energy-only markets like ERCOT, UEVF can highlight under-procured capacity if reliability costs are not monetized, guiding the design of new market products like firm capacity auctions \cite{stanwich2024}.
+
+% Energy and ancillary services markets
+\textbf{Energy and Ancillary Services Markets}: The Dispatch Module captures costs like reserves, which in markets appear as ancillary service costs. If renewables increase reserve needs, UEVF’s \( C_{\text{dispatch}} \) quantifies this, suggesting market reforms like participant charging or new products (e.g., fast frequency response) to internalize these costs. Such reforms could reduce \( C_{\text{dispatch}} \) by leveraging technologies like batteries \cite{caiso2022}.
+
+% Energy market prices and value factor
+\textbf{Energy Market Prices and Value Factor}: The Market Value Module’s \( v_{\text{value}} \) is directly observable as the ratio of a resource’s capture price to the average price. In California, solar’s declining capture price reflects a low \( v_{\text{value}} \), increasing its ASCDE. UEVF can forecast these trends to guide procurement and market design, such as introducing flexible ramping products to boost \( v_{\text{value}} \) for resources that align with demand \cite{caiso2022}.
+
+% Integrating UEVF into market simulations
+\textbf{Integrating UEVF into Market Simulations}: ISOs like ISO-NE or MISO can use ASCDE to simplify long-term planning scenarios, presenting effective costs rather than just LCOEs. If a high-renewable scenario yields a high average ASCDE, it highlights the need for specific interventions (e.g., firm capacity markets or interregional transmission) to address dominant cost modules \cite{nrel2021_compmetrics}.
+
+% Market participant decisions
+\textbf{Market Participant Decisions}: Developers can use UEVF to optimize projects. For example, adding storage to a wind farm may increase LCOE but reduce ASCDE by improving ELCC and \( v_{\text{value}} \), enhancing profitability in markets that reward these attributes. UEVF encourages developers to consider system-level impacts beyond busbar costs \cite{idel2022}.
+
+\subsection{Limitations and Further Research}
+% Static analysis
+\textbf{Static Analysis}: UEVF provides a snapshot based on a given system state. As resource penetration changes, parameters like \( v_{\text{value}} \) and ELCC shift, requiring iterative calculations. Future work could integrate UEVF into dynamic optimization models to account for these changes \cite{olanrewaju2025}.
+
+% Linear additivity
+\textbf{Linear Additivity}: The additive structure assumes independent module costs, but synergies (e.g., wind and solar improving combined ELCC) or economies of scale (e.g., shared storage) may exist. Extending UEVF to evaluate portfolios or hybrid resources could capture these effects \cite{grimm2024}.
+
+% Operational stability factors
+\textbf{Operational Stability Factors}: UEVF’s Dispatch Module covers reserves and ramping but omits issues like inertia or voltage support. These could be incorporated as additional integration costs if they become significant \cite{nerc2019}.
+
+% Data for parameters
+\textbf{Data for Parameters}: Parameters like ELCC or \( v_{\text{value}} \) require empirical data or simulations, introducing uncertainty. Sensitivity analyses can test ASCDE’s robustness, identifying critical assumptions for monitoring \cite{lazard2021}.
+
+% Non-economic factors
+\textbf{Non-Economic Factors}: UEVF focuses on costs, excluding factors like local jobs or public acceptability. Policymakers can weigh these qualitatively alongside ASCDE results \cite{eia2020}.
+
+% Future work
+\textbf{Future Work}: Embedding UEVF in optimization models could automate resource selection. Applying it to hybrid resources, demand-side options (e.g., energy efficiency), or sector-coupled loads (e.g., EVs) would broaden its scope. For example, energy efficiency’s ASCDE could be computed with a “negawatt” LCOE and high \( v_{\text{value}} \), often making it competitive \cite{nrel2021_compmetrics}.
+
+\subsection{Conclusion}
+We have presented the Unified Energy Valuation Framework (UEVF) and its Adjusted System-Level Cost of Delivered Electricity (ASCDE) metric as a comprehensive tool for evaluating power generation resources in the U.S. electric system. By incorporating six critical dimensions—dispatch flexibility, fuel supply security, storage integration, transmission requirements, reliability contribution, and market value—UEVF addresses the shortcomings of traditional metrics like LCOE. It generalizes concepts like VALCOE and LFSCOE, offering a modular, transparent way to quantify system-level costs \cite{iea2018, idel2022}.
+
+UEVF indicates that, as renewable penetration increases, ASCDE can rise as integration costs increase and marginal market value declines, strengthening the case for complementary investments (e.g., storage, transmission expansion, and flexibility) to preserve system efficiency and deliverability \cite{grimm2024}. The framework also supports policy design by clarifying which cost components are being targeted by incentives; supports planning by enabling co-optimized resource and grid decisions; and aligns with market design by mapping physical cost drivers to market products and settlement constructs \cite{stanwich2024,caiso2022}. By making each component explicit, UEVF improves transparency and enables more disciplined, data-driven discussion of trade-offs across affordability, reliability, and sustainability.
+
+UEVF is intended as a foundation for both academic inquiry and operational application. Future refinements---including empirical calibration, stress-testing across weather and fuel regimes, and portfolio-level optimization---can further increase its decision value. As the U.S. grid navigates the energy transition, tools like UEVF help maintain analytical coherence under rising complexity, supporting decisions that are reliability-complete rather than headline-metric-driven.
+
+\newpage
+
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+\end{document}
